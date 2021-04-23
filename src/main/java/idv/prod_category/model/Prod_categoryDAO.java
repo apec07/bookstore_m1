@@ -1,11 +1,10 @@
 package idv.prod_category.model;
 
-import java.util.List;
+import java.util.*;
+import java.sql.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.sql.*;
 
 public class Prod_categoryDAO implements Prod_categoryImp {
 	
@@ -16,7 +15,7 @@ public class Prod_categoryDAO implements Prod_categoryImp {
 		
 		try {
 			javax.naming.Context ctx = new javax.naming.InitialContext();
-			javax.sql.DataSource ds  = (javax.sql.DataSource) ctx.lookup("");
+			javax.sql.DataSource ds  = (javax.sql.DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL");
 			con = ds.getConnection();
 		}catch(javax.naming.NamingException e) {
 			e.printStackTrace();
@@ -28,14 +27,55 @@ public class Prod_categoryDAO implements Prod_categoryImp {
 
 	@Override
 	public Prod_categoryVO findByPrimaryIndex(Integer category_no) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(con==null) {return null;}
+		
+		Prod_categoryVO prodcategoryVO = new Prod_categoryVO(); 
+		try {
+			PreparedStatement psmt = con.prepareStatement(GET_ONE_STMT);
+			psmt.setInt(1, category_no);
+			ResultSet rs = psmt.executeQuery();
+			while(rs.next()) {
+				Integer categoryNo = rs.getInt(1);
+				String categoryName = rs.getString(2);
+				String categoryDescr = rs.getString(3);
+				prodcategoryVO.setCategory_no(categoryNo);
+				prodcategoryVO.setCategory_name(categoryName);
+				prodcategoryVO.setCategory_descr(categoryDescr);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return prodcategoryVO;
 	}
 
 	@Override
 	public List<Prod_categoryVO> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		if(con==null) { return null; }
+		List<Prod_categoryVO> list = new LinkedList<>();
+		try {
+			PreparedStatement psmt = con.prepareStatement(GET_ALL_STMT);
+			ResultSet rs = psmt.executeQuery();
+			while(rs.next()) {
+				Prod_categoryVO prodcategoryVO = new Prod_categoryVO();
+				Integer categoryNo = rs.getInt(1);
+				String categoryName = rs.getString(2);
+				String categoryDescr = rs.getString(3);
+				prodcategoryVO.setCategory_no(categoryNo);
+				prodcategoryVO.setCategory_name(categoryName);
+				prodcategoryVO.setCategory_descr(categoryDescr);
+				list.add(prodcategoryVO);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(list.size()==0) {
+			return null;
+		}
+		return list;
 	}
+	
 
 }
