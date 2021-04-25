@@ -1,6 +1,8 @@
 package bookstore_m1;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class TestConnection {
 
@@ -8,15 +10,14 @@ public class TestConnection {
 
 	static {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) throws SQLException {
-
+	
+	private static void testCon() throws SQLException {
 		String url = "jdbc:mysql://localhost:3306/db_morgan_bookstore?" + "autoReconnect=true&useSSL=false";
 		String userName = "root";
 		String password = "1234";
@@ -43,6 +44,10 @@ public class TestConnection {
 
 		}
 
+	}
+
+	public static void main(String[] args) throws SQLException {
+		testCon();
 	}
 
 }

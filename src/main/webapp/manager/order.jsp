@@ -1,15 +1,13 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
-<!-- Redirect to login page -->
-<%
 
-
-%>
 <html>
 <head>
-<title>Insert title here</title>
+
+<title>Order Management</title>
 </head>
 <body>
+<H1>Order Management</H1>
 
 </body>
 </html>
