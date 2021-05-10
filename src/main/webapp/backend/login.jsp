@@ -9,17 +9,19 @@
 </head>
 <body>
 <H1>Back-End Login Select Page</H1>
-<ul>
+
+<form method="post" action="mem.do">
+		
+
+<SELECT name="memNo">
 <c:forEach var="memVO" items="${memSvc.allMember}">
-	<li><div>${memVO.name}</div>
-	<form method="post" action="mem.do">
-		<input type="hidden" name="memNo" value="${memVO.no}">
-		<input type="hidden" name="action" value="backend_login">
-		<input type="submit" value="選擇">
-	</form>
-	</li>
+	<option value="${memVO.no}">${memVO.name}</option>
 </c:forEach>
-</ul>
+</SELECT>
+	<input type="hidden" name="action" value="backend_login">
+	<input type="submit" value="選擇">
+
+</form>
 
 
 </body>

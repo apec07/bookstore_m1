@@ -19,14 +19,19 @@ public class MemberServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	doPost(req,res);
+    }
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		res.setContentType("text/html; charset=UTF-8");
 		req.setCharacterEncoding("UTF-8");
 		String method = req.getParameter("action");
-		if(method.isEmpty()) {
-			return ;
+		if(method==null ||method.trim().length()==0) {
+			log("no parameters for action");
+			res.sendRedirect(req.getContextPath()+"/backend/index.jsp");
+			return;
 		}
 		//登入方法
 		if(method.contains("backend_login")) {
@@ -45,6 +50,10 @@ public class MemberServlet extends HttpServlet {
 			log("member - "+member);
 			req.getSession().setAttribute("backend", member); //後者蓋前者
 			res.sendRedirect(req.getContextPath()+"/backend/index.jsp");
+		//登出
+		}else if(method.contains("logout")){
+			req.getSession().removeAttribute("backend");
+			res.sendRedirect(req.getContextPath()+"/backend/login.jsp");
 		}
 		
 	}
