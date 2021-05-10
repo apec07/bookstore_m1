@@ -25,6 +25,5 @@ public interface ProductImp {
 	Integer deleteProd(Integer product_no);
 	ProductVO getOneProd(Integer product_no);
 	List<ProductVO> getAllProd();
-	
-
+	List<String> getProdHeader();
 }

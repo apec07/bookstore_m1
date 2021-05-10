@@ -75,5 +75,9 @@ public class ProductService {
 	public List<ProductVO> getAllProd(){
 		return dao.getAllProd();
 	}
+	
+	public List<String> getProdHeader(){
+		return dao.getProdHeader();
+	}
 
 }

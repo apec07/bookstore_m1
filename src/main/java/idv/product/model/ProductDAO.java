@@ -184,4 +184,35 @@ public class ProductDAO implements ProductImp {
 		return list;
 	}
 
+	@Override
+	public List<String> getProdHeader() {
+		Connection con = null;
+		List<String> list = new LinkedList<>();
+		
+		try {
+			con = ds.getConnection();
+			PreparedStatement psmt = con.prepareStatement(GET_ALL_STMT);
+			ResultSetMetaData rsmd = psmt.getMetaData();
+			int colCount = rsmd.getColumnCount();
+			for(int i=1;i<=colCount;i++) {
+				String colName = rsmd.getColumnName(i);
+				list.add(colName);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return list;
+	}
+	
+
 }

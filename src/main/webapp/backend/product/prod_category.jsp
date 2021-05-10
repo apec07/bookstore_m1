@@ -13,17 +13,21 @@
 
 <table border=1>
 	<thead>
-		<c:forEach items="${prod_categorySvc.all}" var="prodcat">
-		<tr>
-		<th>${prodcat.category_name}</th><th>${prodcat.category_descr}</th>
-		</tr>
+		<c:forEach items="${prod_Svc.prodHeader}" var="header_name">
+		
+		<th>${header_name}</th>
+	
 		</c:forEach>
 	</thead>
 	<tbody>
 		<c:forEach items="${prod_Svc.allProd}" var="prod">
 		<tr>
 		<td>${prod.product_no}</td>
-		<td>${prod.category_no}</td>
+		<td><c:forEach var="prodcat" items="${prod_categorySvc.all}">
+                    <c:if test="${prod.category_no==prodcat.category_no}">
+	                    ${prodcat.category_no}【${prodcat.category_name} - ${prodcat.category_descr}】
+                    </c:if>
+            </c:forEach></td>
 		<td>${prod.prod_name}</td>
 		<td>${prod.prod_price}</td>
 		<td>${prod.prod_introduce}</td>
