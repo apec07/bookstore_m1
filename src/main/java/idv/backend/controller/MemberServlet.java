@@ -30,7 +30,7 @@ public class MemberServlet extends HttpServlet {
 		}
 		//登入方法
 		if(method.contains("backend_login")) {
-			String memNo = req.getParameter("memNo");
+			String memNo = req.getParameter("mem_no");
 			MemberService memSvc = new MemberService();
 			Integer no=0;
 			try {
@@ -44,6 +44,7 @@ public class MemberServlet extends HttpServlet {
 			MemberVO member = memSvc.getOneMember(no);
 			log("member - "+member);
 			req.getSession().setAttribute("backend", member); //後者蓋前者
+//			req.getRequestDispatcher("/backend/index.jsp").forward(req, res);
 			res.sendRedirect(req.getContextPath()+"/backend/index.jsp");
 		}
 		
