@@ -27,9 +27,20 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
   	<servlet-name>MemberServlet</servlet-name>
   	<servlet-class>idv.backend.controller.MemberServlet</servlet-class>
   </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>ProductServlet</display-name>
+    	<servlet-name>ProductServlet</servlet-name>
+    	<servlet-class>idv.product.controller.ProductServlet</servlet-class>
+    </servlet>
   <servlet-mapping>
   	<servlet-name>MemberServlet</servlet-name>
   	<url-pattern>/backend/mem.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProductServlet</servlet-name>
+  	<url-pattern>/backend/prod.do</url-pattern>
   </servlet-mapping>
   
   </web-app>

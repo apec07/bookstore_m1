@@ -14,13 +14,12 @@
 <table border=1>
 	<thead>
 		<c:forEach items="${prod_Svc.prodHeader}" var="header_name">
-		
 		<th>${header_name}</th>
-	
 		</c:forEach>
 	</thead>
 	<tbody>
 		<c:forEach items="${prod_Svc.allProd}" var="prod">
+		
 		<tr>
 		<td>${prod.product_no}</td>
 		<td><c:forEach var="prodcat" items="${prod_categorySvc.all}">
@@ -34,7 +33,13 @@
 		<td>${prod.prod_stock}</td>
 		<td>${prod.prod_status}</td>
 		<td><img src="${pageContext.request.contextPath}/resources/NoData/nopic.jpg"/></td>
+		<td><form method="post" action="${pageContext.request.contextPath}/backend/prod.do">
+		<input type="hidden" name="prod_no" value="${prod.product_no}"/>
+		<input type="submit" name="action" value="update"/>
+		</form>
+		</td>
 		</tr>
+		
 		</c:forEach>
 	</tbody>
 

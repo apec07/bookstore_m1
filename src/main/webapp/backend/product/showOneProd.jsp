@@ -2,8 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="idv.prod_category.model.Prod_categoryVO" %>
 <%@ page import="idv.product.model.ProductVO" %>
-<jsp:useBean id="prod_categorySvc" scope="page" class="idv.prod_category.model.Prod_categoryService" />
-<jsp:useBean id="prod_Svc" scope="page" class="idv.product.model.ProductService" />
+
 <%--
 	private Integer product_no;  //PK
 	private Integer category_no; //FK
@@ -12,14 +11,13 @@
 	private String prod_introduce;
 	private Integer prod_stock;
 	private Integer prod_status; 
-	private byte[] prod_pic;
-	
+	private byte[] prod_pic;	
  --%>
 
 <!DOCTYPE html>
 <html>
 <head>
-
+<%-- 	<jsp:attribute name="oneProd"></jsp:attribute> --%>
 </head>
 <body>
 
@@ -29,7 +27,7 @@
 
 	<tr>
 	<td>Product Name:</td>
-	<td><input type="text" name="prod_name" class="input" value="${param.prod_name}">
+	<td><input type="text" name="prod_name" class="input" value="${oneProd.prod_name}">
 	</td>
 	</tr>
 	<tr>
@@ -49,7 +47,7 @@
 	<td>
 	<select name="category_no">
 	<c:forEach items="${prod_categorySvc.all}" var="cat">
-	<option value="${cat.category_name}"/>
+	<option value="${cat.category_no}">${cat.category_name}</option>
 	</c:forEach>
 	</select>
 	</td>

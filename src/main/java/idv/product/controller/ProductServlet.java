@@ -1,0 +1,48 @@
+package idv.product.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import idv.product.model.ProductService;
+import idv.product.model.ProductVO;
+
+
+public class ProductServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+
+    public ProductServlet() {
+        super();
+    }
+
+
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		doPost(req,res);
+	}
+
+
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		res.setContentType("text/html; charset=UTF-8");
+		req.setCharacterEncoding("UTF-8");
+		String method = req.getParameter("action");
+		if(method==null ||method.trim().length()==0) {
+			log("no parameters for action");
+			res.sendRedirect(req.getContextPath()+"/backend/index.jsp");
+			return;
+		}
+		//商品單一 查詢/更新
+		if(method.contains("update")){
+			String prod_no = req.getParameter("prod_no");
+			ProductService prod_svc = new ProductService();
+			ProductVO prod = prod_svc.getOneProd(new Integer(prod_no));
+			req.setAttribute("oneProd", prod);
+			req.getRequestDispatcher(req.getContextPath()+"/backend/product/showOneProd.jsp").forward(req, res);
+			return;
+		}
+		log("method not get");
+	}
+
+}
