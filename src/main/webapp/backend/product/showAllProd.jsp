@@ -9,7 +9,7 @@
 
 <html>
 <body>
-<h2>Here is Prod_category List as below </h2>
+<h2>Here is Product list as below </h2>
 
 <table border=1>
 	<thead>

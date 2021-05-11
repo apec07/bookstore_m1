@@ -17,6 +17,6 @@
 	
 	<a href="${pageContext.request.contextPath}/backend/mem.do?action=logout">Logout</a>
 	<HR>
-	<jsp:include page="/backend/product/prod_category.jsp" flush="true" />
+	<jsp:include page="/backend/product/showAllProd.jsp" flush="true" />
 </body>
 </html>
