@@ -85,6 +85,9 @@ public class ProductDAO implements ProductImp {
 	public Integer updateProd(ProductVO productVO) {
 		Connection con = null;
 		Integer updateNum=0;
+		System.out.println("productVO "+productVO);
+		System.out.println("productVONo "+productVO.getProduct_no());
+		System.out.println("productVOCat "+productVO.getCategory_no());
 		try {
 			con = ds.getConnection();
 			PreparedStatement psmt = con.prepareStatement(UPDATE_ONE_STMT);
@@ -118,7 +121,7 @@ public class ProductDAO implements ProductImp {
 		ProductVO product = new ProductVO();
 		try {
 			con = ds.getConnection();
-			PreparedStatement psmt = con.prepareStatement(GET_ALL_STMT);
+			PreparedStatement psmt = con.prepareStatement(GET_ONE_STMT);
 			psmt.setInt(1, product_no);
 			ResultSet rs = psmt.executeQuery();
 			while(rs.next()) {

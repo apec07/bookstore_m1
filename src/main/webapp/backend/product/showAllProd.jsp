@@ -33,9 +33,10 @@
 		<td>${prod.prod_stock}</td>
 		<td>${prod.prod_status}</td>
 		<td><img src="${pageContext.request.contextPath}/resources/NoData/nopic.jpg"/></td>
-		<td><form method="post" action="${pageContext.request.contextPath}/backend/prod.do">
+		<td><form method="post" action="${pageContext.request.contextPath}/backend/prod.do" >
 		<input type="hidden" name="prod_no" value="${prod.product_no}"/>
-		<input type="submit" name="action" value="update"/>
+		<input type="hidden" name="action" value="getOneForUpdate"/>
+		<input type="submit" value="update"/>
 		</form>
 		</td>
 		</tr>

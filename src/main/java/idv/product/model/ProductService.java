@@ -37,10 +37,11 @@ public class ProductService {
 		
 	}
 	
-	public ProductVO updateProd (Integer category_no, String prod_name, Integer prod_price, String prod_introduce, 
+	public ProductVO updateProd (Integer prod_no, Integer category_no, String prod_name, Integer prod_price, String prod_introduce, 
 			Integer prod_stock, Integer prod_status, byte[] prod_pic ) {
 		ProductVO productVO = new ProductVO();
-		productVO.setProduct_no(category_no);
+		productVO.setProduct_no(prod_no);
+		productVO.setCategory_no(category_no);
 		productVO.setProd_name(prod_name);
 		productVO.setProd_price(prod_price);
 		productVO.setProd_introduce(prod_introduce);
