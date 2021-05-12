@@ -32,7 +32,7 @@
 		<td>${prod.prod_introduce}</td>
 		<td>${prod.prod_stock}</td>
 		<td>${prod.prod_status}</td>
-		<td><img src="${pageContext.request.contextPath}/resources/NoData/nopic.jpg"/></td>
+		<td><img width='100' src="${pageContext.request.contextPath}/reader/DBGifReader?product_no=${prod.product_no}"/></td>
 		<td><form method="post" action="${pageContext.request.contextPath}/backend/prod.do" >
 		<input type="hidden" name="prod_no" value="${prod.product_no}"/>
 		<input type="hidden" name="action" value="getOneForUpdate"/>

@@ -13,7 +13,8 @@ public interface ProductImp {
 			+ " prod_price=?,"
 			+ " prod_introduce=?,"
 			+ " prod_stock=?,"
-			+ " prod_status=?"
+			+ " prod_status=?,"
+			+ " prod_pic=?"
 			+ " WHERE product_no=?";
 	final String DELETE_ONE_STMT="DELETE FROM product WHERE product_no=?";
 	final String GET_ONE_STMT="SELECT product_no,category_no,prod_name,prod_price,prod_introduce,prod_stock,prod_status,prod_pic FROM product WHERE product_no=?";

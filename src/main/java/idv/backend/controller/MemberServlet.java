@@ -31,7 +31,7 @@ public class MemberServlet extends HttpServlet {
 		if(method==null ||method.trim().length()==0) {
 			log("no parameters for action");
 			res.sendRedirect(req.getContextPath()+"/backend/index.jsp");
-			return;
+			
 		}
 		//登入方法
 		if(method.contains("backend_login")) {

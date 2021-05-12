@@ -19,13 +19,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%-- 	<jsp:attribute name="oneProd"></jsp:attribute> --%>
+
+<%
+	
+
+%>
 </head>
 <body>
 
 <a href="${pageContext.request.contextPath}/backend/product/showAllProd.jsp">Back to List</a>
 
-<form method="post" action="${pageContext.request.contextPath}/backend/prod.do" >
+<form method="post" action="${pageContext.request.contextPath}/backend/prod.do" enctype="multipart/form-data">
 <input type="hidden" name="action" value="updateOne"/>
 <input type="hidden" name="prod_no" value="${oneProd.product_no}"/>
 <table border=1>
@@ -63,13 +67,14 @@
 	<tr>
 	<td>Product Picture : </td>
 	<td><input type="file" class="input" name="prod_pic" id="prod_pic" onchange="previewImage()"/>
-	<img id="blob_holder" src="${pageContext.request.contextPath}/resources/NoData/nopic.jpg"></td>
+	<img id="blob_holder" width='300' src="${pageContext.request.contextPath}/reader/DBGifReader?product_no=${oneProd.product_no}"></td>
 	</tr>
 </table>
 
 <br>
 
 <input type="submit" value="update"/>
+<a href="${pageContext.request.contextPath}/backend/index.jsp">Back to Home</a>
 </form>
 
 <script type="text/javascript">

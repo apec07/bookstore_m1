@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import idv.product.model.ProductService;
 import idv.product.model.ProductVO;
 
-
+@MultipartConfig
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -48,6 +49,9 @@ public class ProductServlet extends HttpServlet {
 			req.getRequestDispatcher("/backend/product/showOneProd.jsp").forward(req, res);
 			return;
 		}else if(method.contains("updateOne")) {
+			// Dispatcher from showOneProd.jsp (jsp:forward) or null 
+			ProductVO prod = (ProductVO)req.getAttribute("oneProd");
+		
 			Integer prod_no = new Integer(req.getParameter("prod_no"));
 			String upProd_name = req.getParameter("prod_name");
 			String upProd_intro = req.getParameter("prod_introduce");
@@ -55,8 +59,16 @@ public class ProductServlet extends HttpServlet {
 			Integer upProd_stock = new Integer(req.getParameter("prod_stock"));
 			Integer upCate_no = new Integer(req.getParameter("category_no"));
 		
-//			InputStream is = req.getPart("prod_pic").getInputStream();
-			ProductVO upProd = new ProductService().updateProd(prod_no,upCate_no, upProd_name, upProd_price, upProd_intro, upProd_stock, 1, null);
+			InputStream is = req.getPart("prod_pic").getInputStream();
+			//overwrite to DB (TBD)
+			byte[] prod_pic = null;
+			if(is.available()!=0){
+				prod_pic = new byte[is.available()];
+				is.read(prod_pic);
+				is.close();
+			} 
+			
+			ProductVO upProd = new ProductService().updateProd(prod_no,upCate_no, upProd_name, upProd_price, upProd_intro, upProd_stock, 1, prod_pic);
 			
 			log("update Product - "+upProd);
 			req.getRequestDispatcher("/backend/product/showAllProd.jsp").forward(req, res);
