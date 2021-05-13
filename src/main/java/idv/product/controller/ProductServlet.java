@@ -49,10 +49,10 @@ public class ProductServlet extends HttpServlet {
 			req.getRequestDispatcher("/backend/product/showOneProd.jsp").forward(req, res);
 			return;
 		}else if(method.contains("updateOne")) {
-			// Dispatcher from showOneProd.jsp (jsp:forward) or null 
-			ProductVO prod = (ProductVO)req.getAttribute("oneProd");
-		
-			Integer prod_no = new Integer(req.getParameter("prod_no"));
+			// getSession attribute
+			ProductVO prod = (ProductVO)req.getSession().getAttribute("oneProd");
+			log("getFrom updateOne - "+prod);
+			Integer prod_no = prod.getProduct_no();
 			String upProd_name = req.getParameter("prod_name");
 			String upProd_intro = req.getParameter("prod_introduce");
 			Integer upProd_price = new Integer(req.getParameter("prod_price"));
@@ -60,9 +60,10 @@ public class ProductServlet extends HttpServlet {
 			Integer upCate_no = new Integer(req.getParameter("category_no"));
 		
 			InputStream is = req.getPart("prod_pic").getInputStream();
-			//overwrite to DB (TBD)
-			byte[] prod_pic = null;
-			if(is.available()!=0){
+			
+			byte[] prod_pic = prod.getProd_pic();
+			// Upload image if exists 
+			if(is.available()!=0 ){
 				prod_pic = new byte[is.available()];
 				is.read(prod_pic);
 				is.close();
@@ -71,7 +72,8 @@ public class ProductServlet extends HttpServlet {
 			ProductVO upProd = new ProductService().updateProd(prod_no,upCate_no, upProd_name, upProd_price, upProd_intro, upProd_stock, 1, prod_pic);
 			
 			log("update Product - "+upProd);
-			req.getRequestDispatcher("/backend/product/showAllProd.jsp").forward(req, res);
+			res.sendRedirect(req.getContextPath()+"/backend/index.jsp");
+//			req.getRequestDispatcher("/backend/index.jsp").forward(req, res);
 			return;
 		}
 		log("method not get");

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ page import="idv.member.model.MemberVO" %>
 <jsp:useBean id="prod_categorySvc" scope="page" class="idv.prod_category.model.Prod_categoryService" />
 <jsp:useBean id="prod_Svc" scope="page" class="idv.product.model.ProductService" />
 
@@ -8,7 +8,16 @@
 
 
 <html>
+<head>
+<% 
+  MemberVO member = (MemberVO)session.getAttribute("backend");
+ if(member==null){
+	 response.sendRedirect(request.getContextPath()+"/backend/login.jsp");
+ }
+%>
+</head>
 <body>
+
 <h2>Here is Product list as below </h2>
 
 <table border=1>
