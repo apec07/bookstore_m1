@@ -38,6 +38,28 @@ public class ProductServlet extends HttpServlet {
 			return;
 		}
 		log("method "+method);
+		//page forward (all / one)
+		if(method.contains("selectPage")) {
+			String usePage = req.getParameter("usePage");
+			log("usePage - "+usePage);
+			switch(usePage) {
+				case "all":
+					req.setAttribute("usePage", "/backend/product/showAllProd.jsp");
+					break;
+					
+				case "one":
+					req.setAttribute("usePage", "/backend/product/showOneProd.jsp");
+					break;
+					
+				default:
+					log("undefined page");
+						
+			}
+			req.getRequestDispatcher("/backend/index.jsp").forward(req, res);
+			log("page forward");
+			return;
+		}
+		
 		//商品單一 查詢/更新
 		if(method.contains("getOneForUpdate")){
 			String prod_no = req.getParameter("prod_no");
