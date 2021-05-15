@@ -33,12 +33,28 @@
 %>
 </head>
 <body>
-
-	<a href="${pageContext.request.contextPath}/backend/product/showAllProd.jsp">Back to List</a>
+	<!-- judge if add or update -->
+	<c:if test="${oneProd !=null }" var="isUpdate">
+   	<H2><c:out value="Update Page"/></H2>
+	</c:if>
+	<c:if test="${oneProd ==null }" var="isAdd">
+	<H2><c:out value="Add Page"/></H2>
+	</c:if>
+	
 
 	<form method="post"	action="${pageContext.request.contextPath}/backend/prod.do" enctype="multipart/form-data">
-		<input type="hidden" name="action" value="updateOne" /> 
+	
+		<c:if test="${oneProd !=null }" var="isUpdate">
+   		<input type="hidden" name="action" value="updateOne" /> 
+		</c:if>
+		<c:if test="${oneProd ==null }" var="isAdd">
+		<input type="hidden" name="action" value="AddOne" /> 
+		</c:if>
+		
+		<c:if test="${oneProd !=null }" var="isUpdate">
 		<input type="hidden" name="prod_no" value="${oneProd.product_no}" />
+		</c:if>
+		
 		<table border=1>
 			<tr>
 				<td>Product Name:</td>
@@ -52,11 +68,20 @@
 			</tr>
 			<tr>
 				<td>Product Price :</td>
-				<td><input type="text" name="prod_price" class="input" value="${oneProd.prod_price}"></td>
+				<td><input type="number" name="prod_price" class="input" value="${oneProd.prod_price}"></td>
 			</tr>
 			<tr>
 				<td>Product Stock :</td>
-				<td><input type="text" name="prod_stock" class="input" value="${oneProd.prod_stock}"></td>
+				<td><input type="number" name="prod_stock" class="input" value="${oneProd.prod_stock}"></td>
+			</tr>
+			<tr>
+				<td>Product Status :</td>
+				<td>
+				<!-- offline - 0 -->
+				<input type="radio" name="prod_status" class="input" value="0" ${(oneProd.prod_status==0)? 'checked':'' }>Offline&nbsp;
+				<!-- online - 1 -->
+				<input type="radio" name="prod_status" class="input" value="1" ${(oneProd.prod_status==1)? 'checked':'' }>Online
+				</td>
 			</tr>
 			<tr>
 				<td>Product Category :</td>
@@ -75,8 +100,14 @@
 		</table>
 
 		<br> 
-		<input type="submit" value="update" /> 
-		<a href="${pageContext.request.contextPath}/backend/index.jsp">Back	to Home</a>
+		<c:if test="${oneProd !=null }" var="isUpdate">
+   		<input type="submit" value="update" /> 
+		</c:if>
+		<c:if test="${oneProd ==null }" var="isAdd">
+		<input type="submit" value="Add" /> 
+		</c:if>
+	
+		<a href="${pageContext.request.contextPath}/backend/">Back	to Home</a>
 	</form>
 
 	<script type="text/javascript">

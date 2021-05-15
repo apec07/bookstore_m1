@@ -14,6 +14,27 @@
  if(p1==null){
 	 request.setAttribute("usePage", "/backend/product/showAllProd.jsp");	 
  }
+  
+  if(session.getAttribute("isDelete")!=null){
+	  boolean isDelete = (boolean)session.getAttribute("isDelete");
+	  if(isDelete){
+		log("delete!");
+		 %>
+		 <script type="text/javascript">
+	 	 alert('delete');
+	  	</script>
+	  	<%
+	  }else{
+		log("unable deleted");
+		 %>
+		 <script type="text/javascript">
+	 	 alert('unable deleted');
+	  </script>
+	   <%
+	  }
+	  // removed if notice
+	  session.removeAttribute("isDelete");
+  }
  
 %>
 <title>Back-End Manager</title>

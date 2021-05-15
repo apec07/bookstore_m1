@@ -34,7 +34,7 @@ public class ProductServlet extends HttpServlet {
 		
 		if(method==null ||method.trim().length()==0) {
 			log("no parameters for action");
-			res.sendRedirect(req.getContextPath()+"/backend/index.jsp");
+			res.sendRedirect(req.getContextPath()+"/backend/");
 			return;
 		}
 		log("method "+method);
@@ -59,14 +59,35 @@ public class ProductServlet extends HttpServlet {
 			log("page forward");
 			return;
 		}
-		
-		//商品單一 查詢/更新
+		//Add one
+		if(method.contains("AddOne")) {
+			log("Add One Page");
+			Integer addCate_no = new Integer(req.getParameter("category_no"));
+			String addProd_name = req.getParameter("prod_name");
+			String addProd_intro = req.getParameter("prod_introduce");
+			Integer addProd_price = new Integer(req.getParameter("prod_price"));
+			Integer addProd_stock = new Integer(req.getParameter("prod_stock"));
+			Integer addProd_status = new Integer(req.getParameter("prod_status"));
+			InputStream is = req.getPart("prod_pic").getInputStream();
+			
+			byte[] addProd_pic = null;
+			if(is.available()!=0 ){
+				addProd_pic = new byte[is.available()];
+				is.read(addProd_pic);
+				is.close();
+			} 
+			ProductVO addProd = new ProductService().insertProd(addCate_no, addProd_name, addProd_price, addProd_intro, addProd_stock, addProd_status, addProd_pic);
+			log("add Product - "+addProd);
+			res.sendRedirect(req.getContextPath()+"/backend/");
+			return;
+		}
+		//Go Product page for Update  
 		if(method.contains("getOneForUpdate")){
+			log("Update One Page");
 			String prod_no = req.getParameter("prod_no");
 			log("prod_no = "+prod_no);
 			ProductService prod_svc = new ProductService();
 			ProductVO prod = prod_svc.getOneProd(new Integer(prod_no));
-			log("prod = "+prod);
 			req.setAttribute("oneProd", prod);
 			req.getRequestDispatcher("/backend/product/showOneProd.jsp").forward(req, res);
 			return;
@@ -79,6 +100,7 @@ public class ProductServlet extends HttpServlet {
 			String upProd_intro = req.getParameter("prod_introduce");
 			Integer upProd_price = new Integer(req.getParameter("prod_price"));
 			Integer upProd_stock = new Integer(req.getParameter("prod_stock"));
+			Integer upProd_status = new Integer(req.getParameter("prod_status"));
 			Integer upCate_no = new Integer(req.getParameter("category_no"));
 		
 			InputStream is = req.getPart("prod_pic").getInputStream();
@@ -91,11 +113,22 @@ public class ProductServlet extends HttpServlet {
 				is.close();
 			} 
 			
-			ProductVO upProd = new ProductService().updateProd(prod_no,upCate_no, upProd_name, upProd_price, upProd_intro, upProd_stock, 1, prod_pic);
+			ProductVO upProd = new ProductService().updateProd(prod_no,upCate_no, upProd_name, upProd_price, upProd_intro, upProd_stock, upProd_status, prod_pic);
 			
 			log("update Product - "+upProd);
-			res.sendRedirect(req.getContextPath()+"/backend/index.jsp");
+			res.sendRedirect(req.getContextPath()+"/backend/");
 //			req.getRequestDispatcher("/backend/index.jsp").forward(req, res);
+			return;
+		}
+		//Delete select One product
+		if(method.contains("getOneForDelete")) {
+			log("Delete One Product");
+			String prod_no = req.getParameter("prod_no");
+			log("prod_no = "+prod_no);
+			ProductService prod_svc = new ProductService();
+			boolean isDelete = prod_svc.deleteProd(new Integer(prod_no));
+			req.getSession().setAttribute("isDelete", isDelete);
+			res.sendRedirect(req.getContextPath()+"/backend/");
 			return;
 		}
 		log("method not get");
