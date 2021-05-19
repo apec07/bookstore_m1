@@ -41,6 +41,13 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
     	<servlet-name>DBGifReader</servlet-name>
     	<servlet-class>idv.blob.reader.DBGifReader</servlet-class>
     </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>CustomerServlet</display-name>
+    	<servlet-name>CustomerServlet</servlet-name>
+    	<servlet-class>idv.customer.controller.CustomerServlet</servlet-class>
+    </servlet>
   <servlet-mapping>
   	<servlet-name>MemberServlet</servlet-name>
   	<url-pattern>/backend/mem.do</url-pattern>
@@ -52,6 +59,10 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
   <servlet-mapping>
   	<servlet-name>DBGifReader</servlet-name>
   	<url-pattern>/reader/DBGifReader</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CustomerServlet</servlet-name>
+  	<url-pattern>/user.do</url-pattern>
   </servlet-mapping>
   
   </web-app>
