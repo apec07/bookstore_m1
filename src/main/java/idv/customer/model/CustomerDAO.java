@@ -1,6 +1,7 @@
 package idv.customer.model;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -11,18 +12,22 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import idv.member.model.MemberVO;
+import org.apache.logging.log4j.*;
 
 public class CustomerDAO implements CustomerImp {
 	
 	private static DataSource ds = null;
+	public static Logger LOGGER = null;
 
 	static {
+		
+		LOGGER = LogManager.getLogger();
+		
 		try {
 			javax.naming.Context ctx = new javax.naming.InitialContext();
 			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL");
 		} catch (NamingException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 	}
 
@@ -39,13 +44,13 @@ public class CustomerDAO implements CustomerImp {
 			psmt.setString(3, customerVO.getEmail());
 			resultNum = psmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		} finally {
 			if(con!=null) {
 				try {
 					con.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e);
 				}
 			}
 		}
@@ -97,9 +102,74 @@ public class CustomerDAO implements CustomerImp {
 				list.add(customer);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
+		} finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					LOGGER.error(e);
+				}
+			}
 		}
-		
+		return list;
+	}
+
+	@Override
+	public List<String> getAllNames() {
+		Connection con = null;
+		List<String> list = new LinkedList<>();
+		try {
+			con = ds.getConnection();
+			PreparedStatement psmt = con.prepareStatement(GET_ALL_NAMES_STMT);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				String name = rs.getString(1);
+				list.add(name);
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e);
+		} finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					LOGGER.error(e);
+				}
+			}
+		}
+		if(list.size()==0) {
+			LOGGER.warn("no name from Customer");
+		}
+		return list;
+	}
+
+	@Override
+	public List<String> getAllEmails() {
+		Connection con = null;
+		List<String> list = new LinkedList<>();
+		try {
+			con = ds.getConnection();
+			PreparedStatement psmt = con.prepareStatement(GET_ALL_NAMES_STMT);
+			ResultSet rs = psmt.executeQuery();
+			while(rs.next()) {
+				String email = rs.getString(1);
+				list.add(email);
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e);
+		} finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					LOGGER.error(e);
+				}
+			}
+		}
+		if(list.size()==0) {
+			LOGGER.warn("no Email from Customer");
+		}
 		return list;
 	}
 
