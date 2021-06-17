@@ -18,7 +18,7 @@
 		</tr>
 		<tr>
 			<td>UserName</td><td colspan=2>
-			<div><input type="text" name="name" class="name" title="username" onchange="checkUser()"></div>
+			<div ><input type="text" name="name" class="name" title="username" onchange="checkUser()" ><span class="namemsg"></span></div>
 			<div class="nameMsg" style="color:red;"></div>			
 			</td>
 		</tr>
@@ -56,6 +56,7 @@
 	</form>
 	
  <script type="text/javascript">
+ 	 var isExist = false;
 	 $('#btnsubmit').click(function () {
 		//Block if blank input
 		var myform = document.getElementById("login");
@@ -86,6 +87,26 @@
 		  	});
 		  }
     });
+	 	 
+	function createUserImg(isExist){
+		 var img = document.createElement('img');
+		 console.log("createUserImg function call");
+		 if(isExist){
+			 console.log("true");
+			 img.src = '${pageContext.request.contextPath}/resources/icons/remove.svg';
+			 img.width='20';
+		 }else{
+			 console.log("false");
+			 img.src = '${pageContext.request.contextPath}/resources/icons/check.svg';
+			 img.width='20';
+		 }
+		 //make sure that img has not been added before!
+		 $("span.namemsg").find("img").remove();
+		 //add noticed img icon (V / X)
+		 $("span.namemsg").append(img);
+		
+	}
+	
 	 
 	function checkUser(){
 		var userName=$("input[name='name']").val().trim();
@@ -101,14 +122,18 @@
             success:function (result) {
                 if("false"==result){
                 	$("div.nameMsg").text("");
+                	createUserImg(false);
                     alert(userName+"-名稱未使用");
-                }else{
+                }else if("true"==result){
                     alert(userName+"-名稱已使用");
+                	createUserImg(true);
                     console.log("duplicated name - "+$("input.name").val());
 //                     console.log("msg "+$("div.nameMsg").text());
 					$("div.nameMsg").text(userName +" has been used");  
 //                     $("input.name").val("");  //clean input text
 //                     $("input.name").focus();  //focus on input text
+                }else{
+                	console.log("no responsed from back-end");
                 }
             },
             error:function (err) {
