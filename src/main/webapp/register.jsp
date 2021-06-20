@@ -39,8 +39,8 @@
 		
 		<tr>
 			<td>Email</td><td colspan=2>
-			<div><input type="email" name="email" class="email" title="Email"></div>
-			<div class="message">${errorMsgs.customer_email}</div></td>
+			<div><input type="email" name="email" class="email" title="Email" onchange="checkEmail()"><span class="mailmsg"></span></div>
+			<div class="mailMsg" style="color:red;"></div></td>
 		</tr>	
 		<tr>
 		<td colspan=3>
@@ -56,7 +56,8 @@
 	</form>
 	
  <script type="text/javascript">
- 	 var isExist = false;
+ 	 var isUserExist = false;
+ 	 var isMailExist = false;
 	 $('#btnsubmit').click(function () {
 		//Block if blank input
 		var myform = document.getElementById("login");
@@ -87,33 +88,83 @@
 		  	});
 		  }
     });
-	 	 
-	function createUserImg(isExist){
-		 var img = document.createElement('img');
-		 console.log("createUserImg function call");
+	
+	function deleteMailImg(){
+		$("span.mailmsg").find("img").remove();
+	}
+	 
+	function deleteUserImg(){
+		$("span.namemsg").find("img").remove();
+	}
+	
+	function putIcon(img,isExist){
 		 if(isExist){
-			 console.log("true");
 			 img.src = '${pageContext.request.contextPath}/resources/icons/remove.svg';
 			 img.width='20';
 		 }else{
-			 console.log("false");
 			 img.src = '${pageContext.request.contextPath}/resources/icons/check.svg';
 			 img.width='20';
 		 }
+		return img;
+	}
+	
+	function createMailImg(isMailExist){
+		 var img = document.createElement('img');
+		 console.log("createMailImg function call");
+		 img = putIcon(img,isMailExist);
 		 //make sure that img has not been added before!
-		 $("span.namemsg").find("img").remove();
+		 deleteMailImg();
+		 //add noticed img icon (V / X)
+		 $("span.mailmsg").append(img);
+	}
+	 	 
+	function createUserImg(isUserExist){
+		 var img = document.createElement('img');
+		 console.log("createUserImg function call");
+		 img = putIcon(img,isUserExist);
+		 //make sure that img has not been added before!
+		 deleteUserImg();
 		 //add noticed img icon (V / X)
 		 $("span.namemsg").append(img);
+	}
+	
+	function checkEmail(){
+		var eMail=$("input[name='email']").val();
+	
+		//未輸入
+		if(eMail.length===0){
+			//deleteMailimg()
+			$("div.mailMsg").text("");
+			return;
+		}
+		//輸入空白
+		if(eMail.trim().length===0 && eMail.length>0){
+			//deleteMailimg()
+			$("div.mailMsg").text("Email not allow white space");
+			retrun;
+		}
+		//若輸入則 使用後台確認
+		console.log("checkEmail - "+eMail);
+		
 		
 	}
 	
 	 
 	function checkUser(){
-		var userName=$("input[name='name']").val().trim();
+		var userName=$("input[name='name']").val();
+		//未輸入
 		if(userName.length===0){
-			alert("username not allow white space");
+			deleteUserImg();
+			$("div.nameMsg").text("");
 			return;
 		}
+		//輸入空白
+		if(userName.trim().length===0 && userName.length >0 ){
+			deleteUserImg()
+			$("div.nameMsg").text("username not allow white space");
+			return;
+		}
+		//若輸入則 使用後台確認
 		console.log("user name is "+userName);
 	    $.ajax({
             type:"POST",
@@ -123,9 +174,7 @@
                 if("false"==result){
                 	$("div.nameMsg").text("");
                 	createUserImg(false);
-                    alert(userName+"-名稱未使用");
                 }else if("true"==result){
-                    alert(userName+"-名稱已使用");
                 	createUserImg(true);
                     console.log("duplicated name - "+$("input.name").val());
 //                     console.log("msg "+$("div.nameMsg").text());
@@ -133,12 +182,12 @@
 //                     $("input.name").val("");  //clean input text
 //                     $("input.name").focus();  //focus on input text
                 }else{
-                	console.log("no responsed from back-end");
+                	console.log("custom undefined");
                 }
             },
             error:function (err) {
-            	$("div.nameMsg").text("");
-                alert("系統錯誤-register.jsp-ajax");
+            	$("div.nameMsg").text(""+err);
+//                 alert("back-end error from register.jsp-ajax");
             }
         });
 	} 
