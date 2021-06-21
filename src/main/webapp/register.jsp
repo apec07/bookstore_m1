@@ -146,9 +146,57 @@
 			$("div.mailMsg").text("Email not allow white space");
 			retrun;
 		}
-		//若輸入則 使用後台確認
+		//若輸入則 使用後台確認 
 		console.log("checkEmail - "+eMail);
-		
+		//確認eMail 格式正確
+		//Example as below - 
+		/* https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+		function validateEmail(email) {
+  			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  			return re.test(email);
+		}
+
+		function validate() {
+  			const $result = $("#result");
+  			const email = $("#email").val();
+  			$result.text("");
+
+  		if (validateEmail(email)) {
+    		$result.text(email + " is valid :)");
+    		$result.css("color", "green");
+  		} else {
+    		$result.text(email + " is not valid :(");
+    		$result.css("color", "red");
+  		}
+  		return false;
+		}
+
+		$("#validate").on("click", validate);
+		*/
+	    $.ajax({
+            type:"POST",
+            url: "${pageContext.request.contextPath}/user.do",
+            data: {'action' : 'checkEmail','email': eMail},
+            success:function (result) {
+                if("false"==result){
+                	$("div.mailMsg").text("");
+                	createMailImg(false);
+                }else if("true"==result){
+                	createMailImg(true);
+                    console.log("duplicated mail - "+$("input.name").val());
+//                     console.log("msg "+$("div.nameMsg").text());
+					$("div.mailMsg").text("This Email has been used");  
+//                     $("input.name").val("");  //clean input text
+//                     $("input.name").focus();  //focus on input text
+                }else{
+                	console.log("custom undefined");
+                }
+            },
+            error:function (err) {
+            	$("div.mailMsg").text(""+err);
+//                 alert("back-end error from register.jsp-ajax");
+            }
+        });
 		
 	}
 	
@@ -169,10 +217,17 @@
 		}
 		//若輸入則 使用後台確認
 		console.log("user name is "+userName);
+		var formData = [
+			      {'action' : 'checkName'},
+			      {'name': userName}
+			    ];
+
+		console.log(formData);
+		
 	    $.ajax({
-            type:"GET",
+            type:"POST",
             url: "${pageContext.request.contextPath}/user.do",
-            data:["action=checkName","name="+userName],  //Array
+            data: {'action' : 'checkName','name': userName},
             success:function (result) {
                 if("false"==result){
                 	$("div.nameMsg").text("");

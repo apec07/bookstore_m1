@@ -150,7 +150,7 @@ public class CustomerDAO implements CustomerImp {
 		List<String> list = new LinkedList<>();
 		try {
 			con = ds.getConnection();
-			PreparedStatement psmt = con.prepareStatement(GET_ALL_NAMES_STMT);
+			PreparedStatement psmt = con.prepareStatement(GET_ALL_EMAILS_STMT);
 			ResultSet rs = psmt.executeQuery();
 			while(rs.next()) {
 				String email = rs.getString(1);

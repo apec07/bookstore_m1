@@ -136,6 +136,7 @@ public class CustomerServlet extends HttpServlet {
 				List<String> mails = cusSvc.getAllEmails();
 				if(email.length()>0) {
 					for(String eachMail : mails ) {
+						LOGGER.info(eachMail);
 						if(email.equals(eachMail)) {
 							isEmailExist = true;
 						}
