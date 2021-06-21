@@ -59,31 +59,11 @@ public class CustomerServlet extends HttpServlet {
 		
 		String name = req.getParameter("name");
 		String password = req.getParameter("password");
-		
+		String email = req.getParameter("email");
 		switch(action) {
 			case "register":
-				//Ajax ~ Check UserName
-				//customer used for check registered already
-				String email = req.getParameter("email");
-				if(password.isEmpty()) {
-					List<CustomerVO> list = cusSvc.getAllCustomer();
-					boolean isUserExist = false;
-					boolean isEmailExist = false;
-					for(CustomerVO customer : list) {
-						isUserExist = name.equals(customer.getName());
-						isEmailExist = email.equals(customer.getEmail());
-						if(isUserExist==true) break; //
-						if(isEmailExist==true) break; // 
-					}
-					LOGGER.info("isUserExist "+isUserExist);
-					req.getSession().setAttribute("isUserExist",isUserExist);
-					req.getSession().setAttribute("isEmailExist",isEmailExist);
-					res.getWriter().append(""+isUserExist);
-					res.getWriter().close();
-					return;
-				}
-				CustomerVO customer = cusSvc.insertCustomer(name, password, email);
 				
+				CustomerVO customer = cusSvc.insertCustomer(name, password, email);
 				res.sendRedirect(req.getContextPath()+"/login.jsp");
 				break;
 			case "login":
@@ -131,7 +111,41 @@ public class CustomerServlet extends HttpServlet {
 				res.sendRedirect(req.getContextPath()+"/login.jsp");
 				
 				break;
-			
+				
+			case "checkName":
+				//Ajax ~ Check UserName
+				boolean isUserExist = false;
+				List<String> names = cusSvc.getAllNames();
+				if(name.length()>0) {
+					for(String eachName : names ) {
+						isUserExist = name.equals(eachName);
+						if(isUserExist==true) break; // duplicated
+					}
+				}else {
+					return;
+				}
+					LOGGER.info("isUserExist "+isUserExist);
+				
+					res.getWriter().append(""+isUserExist); //true or false to front-end
+					res.getWriter().close();
+				
+				break;
+				
+			case "checkEmail":
+				boolean isEmailExist = false;
+				List<String> mails = cusSvc.getAllEmails();
+				if(email.length()>0) {
+					for(String eachMail : mails ) {
+						if(email.equals(eachMail)) {
+							isEmailExist = true;
+						}
+					}
+				}
+				LOGGER.info("isEmailExist "+isEmailExist);
+				res.getWriter().append(""+isEmailExist); //true or false to front-end
+				res.getWriter().close();
+				
+				break;
 			default:
 				LOGGER.error("undefined actions");
 //				log("undefined actions");

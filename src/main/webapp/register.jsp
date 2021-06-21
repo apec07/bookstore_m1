@@ -18,7 +18,10 @@
 		</tr>
 		<tr>
 			<td>UserName</td><td colspan=2>
-			<div ><input type="text" name="name" class="name" title="username" onchange="checkUser()" ><span class="namemsg"></span></div>
+			<div>
+			<input type="text" name="name" class="name" title="username" onchange="checkUser()" >
+			<span class="namemsg"></span>
+			</div>
 			<div class="nameMsg" style="color:red;"></div>			
 			</td>
 		</tr>
@@ -167,9 +170,9 @@
 		//若輸入則 使用後台確認
 		console.log("user name is "+userName);
 	    $.ajax({
-            type:"POST",
+            type:"GET",
             url: "${pageContext.request.contextPath}/user.do",
-            data:$('#login').serialize(),  //直接傳表單裡的資料
+            data:["action=checkName","name="+userName],  //Array
             success:function (result) {
                 if("false"==result){
                 	$("div.nameMsg").text("");
