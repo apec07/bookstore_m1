@@ -74,6 +74,7 @@
    			}
   		}
 		//submit form
+		checkpass();
 		 $('#login').submit();
 	 });
 	 $(document).ready(function(){
@@ -251,13 +252,13 @@
 	} 
 	function reset1(){
 		console.log("reset status");
-		document.getElementById("submit").disabled = false;
+		document.getElementById("btnsubmit").disabled = false;
 	}
  	function checkpass(){
  		var re_pass = document.getElementById("re_pass").value;
  		var pass = document.getElementById("pass").value;
  		if(pass!==re_pass){
- 			document.getElementById("submit").disabled = true;
+ 			document.getElementById("btnsubmit").disabled = true;
  			console.log("password misatched!");
  			return;
  		}

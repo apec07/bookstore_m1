@@ -1,17 +1,20 @@
 package idv.customer.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.gson.Gson;
 
 import idv.customer.model.CustomerService;
 import idv.customer.model.CustomerVO;
@@ -22,6 +25,7 @@ import idv.customer.model.CustomerVO;
 public class CustomerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public Logger LOGGER = null;
+	public Gson gson = null;
 	
 	public CustomerServlet() {
 		
@@ -30,13 +34,15 @@ public class CustomerServlet extends HttpServlet {
 	@Override
 	public void destroy() {
 		LOGGER.traceExit();
-		LOGGER =null ;
+		LOGGER = null ;
+		gson = null;
 	}
 
 	@Override
 	public void init() throws ServletException {
 		LOGGER = LogManager.getLogger(this.getClass());
 		LOGGER.traceEntry();
+		gson = new Gson();
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -60,11 +66,14 @@ public class CustomerServlet extends HttpServlet {
 		String name = req.getParameter("name");
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
+		
+		PrintWriter out = res.getWriter();
 		switch(action) {
 			case "register":
 				
 				CustomerVO customer = cusSvc.insertCustomer(name, password, email);
 				res.sendRedirect(req.getContextPath()+"/login.jsp");
+				
 				break;
 			case "login":
 				List<CustomerVO> list = cusSvc.getAllCustomer();
@@ -102,6 +111,7 @@ public class CustomerServlet extends HttpServlet {
 				}
 					req.getSession().setAttribute("customer", list.get(index));
 					LOGGER.info("login success");
+					LOGGER.info(gson.toJson(list.get(index)));
 					res.sendRedirect(req.getContextPath()+"/index.jsp");
 				break;
 			case "logout":
