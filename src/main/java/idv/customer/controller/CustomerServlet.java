@@ -90,7 +90,7 @@ public class CustomerServlet extends HttpServlet {
 				List<CustomerVO> list = cusSvc.getAllCustomer();
 
 				//judge name 
-				int index =0; 
+				int index =-1; 
 				for(int i=0;i<list.size();i++) {
 					if(list.get(i).getName().equals(name)) {
 						//if matched , save index to check password
@@ -102,7 +102,7 @@ public class CustomerServlet extends HttpServlet {
 				req.getSession().removeAttribute("errorMsgs");
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.getSession().setAttribute("errorMsgs", errorMsgs);
-				if(index==0) {
+				if(index==-1) {
 					LOGGER.info("username is mismatched : your input - "+name);
 					errorMsgs.put("name_error", name +" is mismatched");
 //					log("username is mismatched : your input - "+name);

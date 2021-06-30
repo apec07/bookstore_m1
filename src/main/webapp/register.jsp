@@ -109,9 +109,13 @@
 	
 	 
 	function checkUser(){
-		var userName=$("input[name='name']").val().trim();
-		if(userName.length===0){
+		var userName=$("input[name='name']").val();
+		if(userName.length!==0 && userName.trim().length===0){
 			alert("username not allow white space");
+			return;
+		}
+		if(userName.length===0){
+			//wo type anything
 			return;
 		}
 		console.log("user name is "+userName);
