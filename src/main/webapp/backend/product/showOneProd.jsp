@@ -90,7 +90,9 @@
 							<option value="${cat.category_no}"
 								${(oneProd.category_no==cat.category_no)? 'selected':'' }>${cat.category_name}</option>
 						</c:forEach>
-				</select></td>
+				</select>
+				<a href="${pageContext.request.contextPath}/backend/cate.do?action=new" target="_blank">Category page</a>
+				</td>
 			</tr>
 			<tr>
 				<td>Product Picture :</td>

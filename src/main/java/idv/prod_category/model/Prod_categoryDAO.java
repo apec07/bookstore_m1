@@ -76,6 +76,43 @@ public class Prod_categoryDAO implements Prod_categoryImp {
 		}
 		return list;
 	}
+
+	@Override
+	public Integer insertProd_category(Prod_categoryVO prod_categoryVO) {
+		
+		if(con==null) {return null;}
+		
+		Integer resultNum =0;
+		
+		String category_name = prod_categoryVO.getCategory_name();
+		String category_descr = prod_categoryVO.getCategory_descr();
+		try {
+			PreparedStatement psmt = con.prepareStatement(CREATE_ONE_STMT);
+			psmt.setString(1, category_name);
+			psmt.setString(2, category_descr);
+			resultNum = psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultNum;
+	}
+
+	@Override
+	public Integer deleteProd_category(Integer category_no) {
+		
+		if(con==null) {return null;}
+		
+		Integer resultNum =0;
+		
+		try {
+			PreparedStatement psmt = con.prepareStatement(DELETE_ONE_STMT);
+			psmt.setInt(1, category_no);
+			resultNum = psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultNum;
+	}
 	
 
 }
