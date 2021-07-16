@@ -41,6 +41,10 @@ public class CustomerService {
 		return dao.getAllCustomer();
 	}
 	
+	public List<CustomerVO> getSomeCustomer(String like){
+		return dao.getSomeCustomer(like);
+	}
+	
 	public List<String> getAllNames(){
 		return dao.getAllNames();
 	}

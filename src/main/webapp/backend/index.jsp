@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="idv.member.model.MemberVO" %>
-<%! int i=0; %>
+
 <!DOCTYPE html>
 <html>
 <head>

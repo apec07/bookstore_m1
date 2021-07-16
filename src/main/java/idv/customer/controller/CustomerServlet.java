@@ -121,7 +121,7 @@ public class CustomerServlet extends HttpServlet {
 				res.sendRedirect(req.getContextPath()+"/login.jsp");
 				
 				break;
-				
+			
 			case "checkName":
 				//Ajax ~ Check UserName
 				boolean isUserExist = false;

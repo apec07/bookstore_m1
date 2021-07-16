@@ -116,6 +116,40 @@ public class CustomerDAO implements CustomerImp {
 	}
 
 	@Override
+	public List<CustomerVO> getSomeCustomer(String like) {
+		Connection con = null;
+		List<CustomerVO> list = new LinkedList<>();
+		
+		try {
+			con = ds.getConnection();
+			PreparedStatement psmt = con.prepareStatement(GET_SOME_STMT);
+			psmt.setString(1, "%"+like+"%");
+			ResultSet rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				CustomerVO customer = new CustomerVO();
+				customer.setNo(rs.getInt(1));
+				customer.setName(rs.getString(2));
+				customer.setPassword(rs.getString(3));
+				customer.setEmail(rs.getString(4));
+				
+				list.add(customer);
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e);
+		} finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					LOGGER.error(e);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
 	public List<String> getAllNames() {
 		Connection con = null;
 		List<String> list = new LinkedList<>();
@@ -172,5 +206,6 @@ public class CustomerDAO implements CustomerImp {
 		}
 		return list;
 	}
+
 
 }
