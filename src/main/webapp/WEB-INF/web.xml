@@ -55,6 +55,13 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
     	<servlet-name>BackCustomerServlet</servlet-name>
     	<servlet-class>idv.customer.controller.BackCustomerServlet</servlet-class>
     </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>CartServlet</display-name>
+    	<servlet-name>CartServlet</servlet-name>
+    	<servlet-class>idv.cart.controller.CartServlet</servlet-class>
+    </servlet>
   <servlet-mapping>
   	<servlet-name>MemberServlet</servlet-name>
   	<url-pattern>/backend/mem.do</url-pattern>
@@ -74,6 +81,10 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
   <servlet-mapping>
   	<servlet-name>CustomerServlet</servlet-name>
   	<url-pattern>/user.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CartServlet</servlet-name>
+  	<url-pattern>/cart.do</url-pattern>
   </servlet-mapping>
 
   

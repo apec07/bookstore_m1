@@ -42,7 +42,7 @@
 		<td><img width='100' src="${pageContext.request.contextPath}/reader/DBGifReader?product_no=${prod.product_no}"/></td>
 		<td>
 		<!-- Cart -->
-		<form method="post" action="${pageContext.request.contextPath}/backend/prod.do" >
+		<form method="post" action="${pageContext.request.contextPath}/cart.do" >
 		<input type="hidden" name="prod_no" value="${prod.product_no}"/>
 		<input type="hidden" name="action" value="cart"/>
 		<input type="number" name="quantity" value="1" min="1"/>

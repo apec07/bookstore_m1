@@ -65,7 +65,7 @@ response.setDateHeader("Expires", 0);
 	<div class="tab">
   	<button class="tablinks" onclick="openCity(event, 'prod')" id="defaultOpen">Product List</button>
   	<button class="tablinks" onclick="openCity(event, 'cart')">Cart List</button>
- 	 <button class="tablinks" onclick="openCity(event, 'favor')">My Favorite</button>
+ 	 <button class="tablinks" onclick="openCity(event, 'favor')">Wish List</button>
 	</div>
 	
 
@@ -81,7 +81,7 @@ response.setDateHeader("Expires", 0);
 </div>
 
 <div id="favor" class="tabcontent">
-  <h3>My Favorite</h3>
+  <h3>Wish List</h3>
   <p>TBD - Linked with user name.</p>
 </div> 
 

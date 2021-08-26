@@ -55,9 +55,12 @@ public class CustomerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
+		String loginUrl = req.getContextPath()+"/login.jsp";
+		String indexUrl = req.getContextPath()+"/index.jsp";
 		String action = req.getParameter("action");
 		if(action==null) {
 			LOGGER.info("no parameters for actions");
+			res.sendRedirect(loginUrl);
 			return;
 		}
 		CustomerService cusSvc = new CustomerService();
@@ -73,7 +76,7 @@ public class CustomerServlet extends HttpServlet {
 			case "register":
 				
 				CustomerVO customerReg = cusSvc.insertCustomer(name, password, email);
-				res.sendRedirect(req.getContextPath()+"/login.jsp");
+				res.sendRedirect(loginUrl);
 				
 				break;
 			case "login":
@@ -94,7 +97,7 @@ public class CustomerServlet extends HttpServlet {
 				if(customerLog==null) {
 					LOGGER.info("username is mismatched : your input - "+name);
 					errorMsgs.put("name_error", name +" is mismatched");
-					res.sendRedirect(req.getContextPath()+"/login.jsp");
+					res.sendRedirect(loginUrl);
 					return;
 				}
 
@@ -104,19 +107,19 @@ public class CustomerServlet extends HttpServlet {
 					LOGGER.info("username & password is mismatched : your input name - "+name +"\tpassword - "+password);
 					errorMsgs.put("pass_error", password + " is incorrect");
 					req.getSession().setAttribute("customerName", name);
-					res.sendRedirect(req.getContextPath()+"/index.jsp");
+					res.sendRedirect(indexUrl);
 					return;
 				}
 					req.getSession().setAttribute("customer", customerLog);
 					LOGGER.info("login success");
 					LOGGER.info(gson.toJson(customerLog));
-					res.sendRedirect(req.getContextPath()+"/index.jsp");
+					res.sendRedirect(indexUrl);
 				break;
 			case "logout":
 				req.getSession().removeAttribute("customer");
 				LOGGER.info("logout");
 //				log("logout");
-				res.sendRedirect(req.getContextPath()+"/login.jsp");
+				res.sendRedirect(loginUrl);
 				
 				break;
 			
