@@ -2,6 +2,7 @@ package idv.customer.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,47 +72,44 @@ public class CustomerServlet extends HttpServlet {
 		switch(action) {
 			case "register":
 				
-				CustomerVO customer = cusSvc.insertCustomer(name, password, email);
+				CustomerVO customerReg = cusSvc.insertCustomer(name, password, email);
 				res.sendRedirect(req.getContextPath()+"/login.jsp");
 				
 				break;
 			case "login":
 				List<CustomerVO> list = cusSvc.getAllCustomer();
 				//judge name 
-				int index =-1; 
-				for(int i=0;i<list.size();i++) {
-					LOGGER.info("Name - "+list.get(i).getName());
-					if(list.get(i).getName().equals(name)) {
-						//if matched , save index to check password
-						index=i;
-					}
-				}
+				Gson gson = new Gson();
+				String listGson = gson.toJson(list);
+				LOGGER.info(listGson);
+				
+//				CustomerVO customerLog = findUsingIterator(name,list);
+				//or use Java 8 Stream API
+				CustomerVO customerLog = list.stream().filter(cus -> name.equals(cus.getName())).findAny().orElse(null);
 				//error handler
 				//clean error message
 				req.getSession().removeAttribute("errorMsgs");
 				Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 				req.getSession().setAttribute("errorMsgs", errorMsgs);
-				if(index==-1) {
+				if(customerLog==null) {
 					LOGGER.info("username is mismatched : your input - "+name);
 					errorMsgs.put("name_error", name +" is mismatched");
-//					log("username is mismatched : your input - "+name);
 					res.sendRedirect(req.getContextPath()+"/login.jsp");
 					return;
-				}	
-						
+				}
+
 				//judge name & password
-				boolean isPasswordCorrect = list.get(index).getPassword().equals(password);
+				boolean isPasswordCorrect = customerLog.getPassword().equals(password);
 				if(!isPasswordCorrect) {
 					LOGGER.info("username & password is mismatched : your input name - "+name +"\tpassword - "+password);
 					errorMsgs.put("pass_error", password + " is incorrect");
-//					log("username & password is mismatched : your input name - "+name +"\tpassword - "+password);
 					req.getSession().setAttribute("customerName", name);
 					res.sendRedirect(req.getContextPath()+"/index.jsp");
 					return;
 				}
-					req.getSession().setAttribute("customer", list.get(index));
+					req.getSession().setAttribute("customer", customerLog);
 					LOGGER.info("login success");
-					LOGGER.info(gson.toJson(list.get(index)));
+					LOGGER.info(gson.toJson(customerLog));
 					res.sendRedirect(req.getContextPath()+"/index.jsp");
 				break;
 			case "logout":
@@ -163,6 +161,17 @@ public class CustomerServlet extends HttpServlet {
 		}
 		
 		
+	}
+	public CustomerVO findUsingIterator(
+			  String name, List<CustomerVO> customers) {
+			    Iterator<CustomerVO> iterator = customers.iterator();
+			    while (iterator.hasNext()) {
+			    	CustomerVO customer = iterator.next();
+			        if (customer.getName().equals(name)) {
+			            return customer;
+			        }
+			    }
+			    return null;
 	}
 
 }
