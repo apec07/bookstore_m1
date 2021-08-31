@@ -4,13 +4,17 @@
 <%@ page import="idv.customer.model.CustomerVO" %>
 <!-- read cart list from product -->
 <%@ page import="idv.cart.model.CartVO" %>
+<!-- utility  -->
+<%@ page import="java.util.List" %>
 <jsp:useBean id="cart_Svc" scope="page" class="idv.cart.model.CartService" />
 
 <!DOCTYPE html>
 <html>
 <head>
 <!-- Set User Session for Test!!! -->
+<%-- <jsp:setProperty property="customer_no" value="1" name="CartVO"/> --%>
 <%
+	CustomerVO customer = (CustomerVO)session.getAttribute("customer");
 	
 %>
 </head>
@@ -24,10 +28,12 @@
 	</thead>
 	<tbody>
 	<!-- retrieve user id  -->
-		<c:forEach items="${cart_Svc.myCart[1]}" var="cart">
+		<c:forEach items="<%=cart_Svc.getMyCart(customer.getNo()) %>" var="cart">
+		<tr>
 			<td>${cart.customer_no }</td>
 			<td>${cart.product_no }</td>
 			<td>${cart.cart_mount }</td>
+		</tr>
 		</c:forEach>
 	</tbody>
 </table>

@@ -77,7 +77,7 @@ response.setDateHeader("Expires", 0);
 
 <div id="cart" class="tabcontent">
   <h3>Cart List</h3>
-  <p>TBD - Linked with user name</p>
+  <jsp:include page="/frontend/showUserCart.jsp" flush="true" />
 </div>
 
 <div id="favor" class="tabcontent">

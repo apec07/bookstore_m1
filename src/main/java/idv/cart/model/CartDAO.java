@@ -112,7 +112,7 @@ public class CartDAO implements CartImp{
 			psmt = con.prepareStatement(GET_ALL_STMT);
 			ResultSetMetaData rsmd = psmt.getMetaData();
 			int colCount = rsmd.getColumnCount();
-			for(int i=1;i<colCount;i++) {
+			for(int i=1;i<=colCount;i++) {
 				String colName = rsmd.getColumnName(i);
 				list.add(colName);
 			}
