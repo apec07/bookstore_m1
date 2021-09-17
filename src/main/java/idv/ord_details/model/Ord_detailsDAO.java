@@ -29,10 +29,10 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 			LOGGER.error("no DataBase defined!\n"+e.getStackTrace());
 		}
 	}
-
+	
 	@Override
-	public Integer insertOrd_detail(Ord_detailsVO ord_detailsVO) {
-		Connection con = null;
+	public Integer insertOrd_detail(Ord_detailsVO ord_detailsVO, Connection con) {
+		
 		PreparedStatement psmt;
 		int updateNum=0;
 		try {
@@ -60,22 +60,22 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 	}
 
 	@Override
-	public Integer updateOrd_detail(Ord_detailsVO ord_detailsVO) {
+	public Integer updateOrd_detail(Ord_detailsVO ord_detailsVO, Connection con) {
 		// cart - update  
 		
 		// update cart to ordered
 		/*
 		    update ord_status 0 - cart
-		    update ord_status 1 - ordered
+			update ord_status 1 - ordered
 		 */
-				
-		// order list - disabled 
-		
+						
+		// order list - disabled
+
 		return null;
 	}
 
 	@Override
-	public Integer deleteOrd_detail(Integer ord_no) {
+	public Integer deleteOrd_detail(Integer ord_no, Connection con) {
 		// cart delete 
 		
 		// ordered  - disabled (back-end only)
@@ -145,5 +145,7 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 		}
 		return list;
 	}
+
+	
 
 }

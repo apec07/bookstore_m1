@@ -1,6 +1,11 @@
 package idv.ord.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+
+import idv.cart.model.CartVO;
+import idv.ord_details.model.Ord_detailsVO;
 
 public class OrdService {
 	
@@ -11,7 +16,7 @@ public class OrdService {
 	}
 	
 	public OrdVO insertOrd(String ord_no,Integer customer_no,Integer ord_status,String receiver,
-			String rec_phone,String rec_zip,String rec_address,Integer ord_total) {
+			String rec_phone,String rec_zip,String rec_address,Integer ord_total ,Vector<CartVO> cartlist) {
 		OrdVO ord = new OrdVO();
 		ord.setOrd_no(ord_no);
 		ord.setCustomer_no(customer_no);
@@ -21,11 +26,18 @@ public class OrdService {
 		ord.setRec_zip(rec_zip);
 		ord.setRec_address(rec_address);
 		ord.setOrd_total(ord_total);
-		if(dao.insertOrd(ord)==0) 
-			return null;
-		else 
-			return ord;
-		
+
+		// Cart List to Order List <have to ChecK!!>
+		List<Ord_detailsVO> addList = new ArrayList<Ord_detailsVO>();
+		for (CartVO cartVO : cartlist) {
+			Ord_detailsVO ord_listVO = new Ord_detailsVO();
+			ord_listVO.setProduct_no(cartVO.getProduct_no());
+			ord_listVO.setQuantity(cartVO.getCart_mount());
+			//.....cartVO modify first
+			addList.add(ord_listVO);
+		}
+		return dao.insertWithOrdDetails(ord, addList);
+
 	}
 	
 	public OrdVO updateOrd(Integer customer_no,Integer ord_status,String receiver,

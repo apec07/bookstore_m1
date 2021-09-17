@@ -1,6 +1,9 @@
 package idv.ord.model;
 
 import java.util.List;
+import java.util.Set;
+
+import idv.ord_details.model.Ord_detailsVO;
 
 public interface OrdImp {
 	/*
@@ -32,10 +35,20 @@ public interface OrdImp {
 					+ " WHERE customer_no=?";
 		  
 		//CRUD
-		Integer insertOrd(OrdVO ordVO);
-		Integer updateOrd(OrdVO ordVO);
-		Integer deleteOrd(Integer ord_no);
+		
+		//Insert Order & OrderDetail 
+		OrdVO insertWithOrdDetails(OrdVO ordVO , List<Ord_detailsVO> list);
+		//Query Order & OrderDetail (one-many)(return Set)
+		Set<Ord_detailsVO> getOrderDetails_ByOrdno(String ord_no);
+		//Update Order & OrderDetail 
+		Integer updateWithOrdDetails(OrdVO ordVO , List<Ord_detailsVO> list);
+		//Delete Order & OrderDetail 
+		Integer deleteWithOrdDetails(Integer ord_no , List<Ord_detailsVO> list);
+		//Query Customer OrderList
 		List<OrdVO> getMyOrd(Integer customer_no);
+		//Query All OrderList
+		List<OrdVO> getAllOrd();
+		//Header
 		List<String> getOrdHeader();
 
 }

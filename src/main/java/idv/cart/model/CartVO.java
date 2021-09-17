@@ -11,6 +11,7 @@ package idv.cart.model;
  */
 
 public class CartVO implements java.io.Serializable {
+	// Modified first !
 	private Integer customer_no;
 	private Integer product_no;
 	private Integer cart_mount;

@@ -27,9 +27,9 @@ public interface Ord_detailsImp {
 				+ " WHERE ord.customer_no=?";
 	  
 	//CRUD
-	Integer insertOrd_detail(Ord_detailsVO ord_detailsVO);
-	Integer updateOrd_detail(Ord_detailsVO ord_detailsVO);
-	Integer deleteOrd_detail(Integer ord_no);
+	Integer insertOrd_detail(Ord_detailsVO ord_detailsVO, java.sql.Connection con);
+	Integer updateOrd_detail(Ord_detailsVO ord_detailsVO, java.sql.Connection con);
+	Integer deleteOrd_detail(Integer ord_no, java.sql.Connection con);
 	List<Ord_detailsVO> getMyOrd_detail(Integer customer_no);
 	List<String> getOrd_detailHeader();
 }
