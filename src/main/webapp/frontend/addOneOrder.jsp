@@ -48,10 +48,18 @@ CREATE TABLE ORD_DETAILS(
 <head>
 <title>Simulated Add One Order</title>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<style>
+tfoot tr td div {
+	background-color : yellow;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+</style>
 </head>
 <body>
 
-	<form action='url'>
+	<form action='url' class='myForm'>
 		<table border=1>
 			<thead>
 			<tr>
@@ -82,12 +90,24 @@ CREATE TABLE ORD_DETAILS(
 			<tr><td>ORD_DATETIME</td>
 				<td><div id='myDate'></div></td></tr>
 			</tbody>
+			<tfoot>
+			<tr><td colspan='2'><div>
+			<input type="button" class='submitBtn' value="Submit">
+			<input type="reset" value="Reset">
+			</div>
+			</td></tr>
+			</tfoot>
 		</table>
+		
 	</form>
 <script>
 window.onload = function() {
 		myprod();
+		
 	};
+
+// 	$('.submitBtn')[0].addEventListener("click", mySubmit);
+	document.getElementsByClassName('submitBtn') [0].addEventListener("click", mySubmit);
 	var total,num;
 	var myProd;
 	var myDate;
@@ -109,6 +129,10 @@ $("#quantity").on('keyup mouseup', function () {
 		var locNum = document.getElementById("quantity").value;
 		calTotal(locNum);
 });
+function mySubmit(){
+	$('form')[0].submit();
+}
+	
 
 function calTotal(locNum){
 	//calulate	
