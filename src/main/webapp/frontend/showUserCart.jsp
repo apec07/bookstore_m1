@@ -15,7 +15,9 @@
 <%-- <jsp:setProperty property="customer_no" value="1" name="CartVO"/> --%>
 <%
 	CustomerVO customer = (CustomerVO)session.getAttribute("customer");
-	
+	if(customer==null){
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
+	}
 %>
 </head>
 <body>

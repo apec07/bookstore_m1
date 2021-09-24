@@ -59,11 +59,11 @@ tfoot tr td div {
 </head>
 <body>
 
-	<form action='url' class='myForm'>
+	<form action='ord.do' class='myForm'>
 		<table border=1>
 			<thead>
 			<tr>
-			<th style="text-align:center;" colspan='2'>新增訂單</th>
+			<th style="text-align:center;" colspan='2'>新增購物車</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -71,12 +71,12 @@ tfoot tr td div {
 			<tr><td>ORD_NO</td>
 				<td><div><input type='text' name='ord_no'></div></td></tr>
 			<tr><td>ORD_STATUS</td>
-				<td><div><input type='radio' name='ord_status' value='已付款'>已付款</div>
-					<div><input type='radio' name='ord_status' value='未付款' checked>未付款</div></td></tr>
+				<td><div><input type='radio' name='ord_status' value=1 >已付款</div>
+					<div><input type='radio' name='ord_status' value=0 checked>未付款</div></td></tr>
 			<tr><td>PROD_NO</td>
 				<td><select name="PRODUCT_NO" id='prod' onchange="myprod()">
 					<c:forEach items="${prod_Svc.allProd}" var="prod">
-  					<option value="${prod.prod_price}">${prod.prod_name}</option>
+  					<option value="${prod.product_no}">${prod.prod_name}</option>
   					</c:forEach>
 					</select></td></tr>
 			<tr><td>Product Price</td>
@@ -92,6 +92,7 @@ tfoot tr td div {
 			</tbody>
 			<tfoot>
 			<tr><td colspan='2'><div>
+			<input type="hidden" name="action" value="AddOneOrder">
 			<input type="button" class='submitBtn' value="Submit">
 			<input type="reset" value="Reset">
 			</div>
@@ -113,10 +114,11 @@ window.onload = function() {
 	var myDate;
 function myprod(){
 	//get from selected prod price
-	myProd = document.getElementById("prod").value;
-	console.log('select price- '+myProd);
+	myProdNo = document.getElementById("prod").value;
+	console.log('select no - '+myProdNo);
+	
 	//put into prod price & set number default as 1
-	document.getElementById("prodPrice").innerText = myProd;
+	document.getElementById("prodPrice").innerText = myProdNo;
 	document.getElementById("quantity").value = 1;
 	// set total 
 	calTotal(1);
@@ -136,7 +138,7 @@ function mySubmit(){
 
 function calTotal(locNum){
 	//calulate	
-	total = myProd*locNum;
+	total = myProdNo*locNum;
 	$("#totalPrice").text(total);
 }
 
