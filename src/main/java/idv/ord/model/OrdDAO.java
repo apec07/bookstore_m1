@@ -46,6 +46,7 @@ public class OrdDAO implements OrdImp{
 			psmt.setString(6, ordVO.getRec_zip());
 			psmt.setString(7, ordVO.getRec_address());
 			psmt.setInt(8, ordVO.getOrd_total());
+			psmt.setTimestamp(9, ordVO.getOrd_datetime());
 			psmt.executeUpdate();
 		} catch (SQLException e) {
 			LOGGER.error("Insert Exception\n"+e.getStackTrace());

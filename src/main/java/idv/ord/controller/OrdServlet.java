@@ -67,13 +67,13 @@ public class OrdServlet extends HttpServlet {
 			Integer prod_no = Integer.valueOf(req.getParameter("PRODUCT_NO"));
 			Integer quantity = Integer.valueOf(req.getParameter("quantity"));
 			
-			java.sql.Timestamp ord_datetime = java.sql.Timestamp.valueOf(req.getParameter("ord_date"));
+			
+			java.sql.Timestamp ord_datetime = new java.sql.Timestamp(System.currentTimeMillis());
 			
 			OrdVO newOrd = new OrdVO();
 			newOrd.setCustomer_no(1); //fake user
 			newOrd.setOrd_no(ord_no);
 			newOrd.setOrd_status(ord_status);
-			
 			newOrd.setOrd_datetime(ord_datetime);
 			
 			OrdService ordSvc = new OrdService();
