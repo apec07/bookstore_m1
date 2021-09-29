@@ -11,6 +11,7 @@ package idv.cart.model;
  */
 
 public class CartVO implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
 	// Modified first !
 	private Integer customer_no;
 	private Integer product_no;
@@ -40,6 +41,25 @@ public class CartVO implements java.io.Serializable {
 
 	public void setCart_mount(Integer cart_mount) {
 		this.cart_mount = cart_mount;
+	}
+	
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(this == obj ) return true;
+		
+		if(obj !=null && this.getClass() == obj.getClass()) {
+			if(obj instanceof CartVO) {
+				CartVO cartVO = (CartVO) obj;
+				if(this.product_no.equals(cartVO.product_no)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	@Override

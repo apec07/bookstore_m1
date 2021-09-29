@@ -2,15 +2,18 @@ package idv.customer.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -72,7 +75,9 @@ public class CustomerServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		
 		PrintWriter out = res.getWriter();
+
 		switch(action) {
+		
 			case "register":
 				
 				CustomerVO customerReg = cusSvc.insertCustomer(name, password, email);
@@ -82,7 +87,7 @@ public class CustomerServlet extends HttpServlet {
 			case "login":
 				List<CustomerVO> list = cusSvc.getAllCustomer();
 				//judge name 
-				Gson gson = new Gson();
+		
 				String listGson = gson.toJson(list);
 				LOGGER.info(listGson);
 				
@@ -116,9 +121,19 @@ public class CustomerServlet extends HttpServlet {
 					res.sendRedirect(indexUrl);
 				break;
 			case "logout":
-				req.getSession().removeAttribute("customer");
-				LOGGER.info("logout");
-//				log("logout");
+				HttpSession session = req.getSession();
+				Enumeration<String> userSessions = req.getSession().getAttributeNames();
+
+
+				Vector<String> sessions = new Vector<>();
+				while(userSessions.hasMoreElements()) {
+					String userSession = userSessions.nextElement();
+					sessions.add(userSession);
+					session.removeAttribute(userSession);
+				}
+
+				LOGGER.info("removeded - "+gson.toJson(sessions));
+				
 				res.sendRedirect(loginUrl);
 				
 				break;

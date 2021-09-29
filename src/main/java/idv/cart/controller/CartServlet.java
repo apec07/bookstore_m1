@@ -61,6 +61,7 @@ public class CartServlet extends HttpServlet {
 		}
 		Vector<CartVO> buylist = (Vector<CartVO>) session.getAttribute("shoppingcart");
 		String method = req.getParameter("action");
+		
 		if(method==null ||method.trim().length()==0) {
 			LOGGER.warn("no parameters for action");
 			res.sendRedirect(req.getContextPath());//#至Cart list
@@ -74,20 +75,26 @@ public class CartServlet extends HttpServlet {
 			newCart.setCustomer_no(customer.getNo());
 			newCart.setProduct_no(product_no);
 			newCart.setCart_mount(cart_mount);
+			LOGGER.info("newCart - "+newCart.getProduct_no());
 			// check buylist if null or add before
 			if (buylist == null) {
 				buylist = new Vector<CartVO>();
 				buylist.add(newCart);
+				LOGGER.info("First Cart add");
+				LOGGER.info(buylist instanceof Vector<?>);
 			} else {
 				if(buylist.contains(newCart)){
 					 CartVO innerCarVO = buylist.get(buylist.indexOf(newCart));
 					 innerCarVO.setCart_mount(innerCarVO.getCart_mount()+ newCart.getCart_mount());
+					 LOGGER.info("the same product+1");
 				}else{
 					buylist.add(newCart);
+					LOGGER.info("different product");
 				}
 			}
-			session.setAttribute("shoppingcart", newCart);
-			LOGGER.info("new Cart no - "+newCart.getProduct_no());
+			
+			LOGGER.info(gson.toJson(buylist));
+			session.setAttribute("shoppingcart", buylist);
 			LOGGER.info("Total Cart size- "+buylist.size());
 			res.sendRedirect(req.getContextPath());
 			
