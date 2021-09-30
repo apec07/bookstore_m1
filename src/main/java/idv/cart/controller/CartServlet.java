@@ -81,7 +81,7 @@ public class CartServlet extends HttpServlet {
 				buylist = new Vector<CartVO>();
 				buylist.add(newCart);
 				LOGGER.info("First Cart add");
-				LOGGER.info(buylist instanceof Vector<?>);
+//				LOGGER.info(buylist instanceof Vector<?>);
 			} else {
 				if(buylist.contains(newCart)){
 					 CartVO innerCarVO = buylist.get(buylist.indexOf(newCart));
