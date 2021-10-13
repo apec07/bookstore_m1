@@ -59,26 +59,32 @@ tfoot tr td div {
 </head>
 <body>
 
-	<form action='ord.do' class='myForm'>
+	<form action='${pageContext.request.contextPath}/ord.do' class='myForm'>
 		<table border=1>
 			<thead>
 			<tr>
-			<th style="text-align:center;" colspan='2'>新增購物車</th>
+			<th style="text-align:center;" colspan='2'>Confirmed Order</th>
 			</tr>
 			</thead>
+				
 			<tbody>
-		
+	
 			<tr><td>ORD_NO</td>
 				<td><div><input type='text' name='ord_no'></div></td></tr>
 			<tr><td>ORD_STATUS</td>
 				<td><div><input type='radio' name='ord_status' value=1 >已付款</div>
 					<div><input type='radio' name='ord_status' value=0 checked>未付款</div></td></tr>
 			<tr><td>PROD_NO</td>
-				<td><select name="PRODUCT_NO" id='prod' onchange="myprod()">
-					<c:forEach items="${prod_Svc.allProd}" var="prod">
-  					<option value="${prod.product_no}">${prod.prod_name}</option>
-  					</c:forEach>
-					</select></td></tr>
+				<td>
+			
+				<ul>		
+					<li><input type="text" value="1"></li>
+					<li><input type="text" value="2"></li>
+					<li><input type="text" value="3"></li>
+					<li><input type="text" value="4"></li>	
+				</ul>
+					
+				</td></tr>
 			<tr><td>Product Price</td>
 				<td><div id='prodPrice'></div></td></tr>
 				
@@ -89,6 +95,7 @@ tfoot tr td div {
 				<td><div id='totalPrice'></div></td></tr>
 			<tr><td>ORD_DATETIME</td>
 				<td><div id='myDate'></div></td></tr>
+		
 			</tbody>
 			<tfoot>
 			<tr><td colspan='2'><div>
@@ -98,6 +105,7 @@ tfoot tr td div {
 			</div>
 			</td></tr>
 			</tfoot>
+		
 		</table>
 		
 	</form>

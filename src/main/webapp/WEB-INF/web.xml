@@ -95,7 +95,7 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>OrdServlet</servlet-name>
-  	<url-pattern>/frontend/ord.do</url-pattern>
+  	<url-pattern>/ord.do</url-pattern>
   </servlet-mapping>
 
   

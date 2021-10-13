@@ -17,7 +17,7 @@
 <body>
 
 
-<table border=1>
+<table border=1 style="vertical-align:middle;">
 	<thead>
 		<c:forEach items="${prod_Svc.prodHeader}" var="header_name">
 		<th>${header_name}</th>

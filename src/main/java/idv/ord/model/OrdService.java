@@ -32,6 +32,7 @@ public class OrdService {
 		for (CartVO cartVO : cartlist) {
 			Ord_detailsVO ord_listVO = new Ord_detailsVO();
 			ord_listVO.setProduct_no(cartVO.getProduct_no());
+			ord_listVO.setProd_price(cartVO.getCustomer_no());//?? how to get price?!
 			ord_listVO.setQuantity(cartVO.getCart_mount());
 			ord_listVO.setOrd_no(ord_no);
 			//.....cartVO modify first

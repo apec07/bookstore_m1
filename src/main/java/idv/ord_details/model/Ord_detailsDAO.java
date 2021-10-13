@@ -14,6 +14,8 @@ import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.gson.Gson;
+
 import idv.cart.model.CartDAO;
 import idv.ord.model.OrdVO;
 
@@ -21,6 +23,7 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 	
 	private static DataSource ds = null;
 	static Logger LOGGER = LogManager.getLogger(CartDAO.class);
+	static Gson gson = new Gson();
 	static {
 		try {
 			javax.naming.Context ctx = new javax.naming.InitialContext();
@@ -38,14 +41,22 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 		try {
 			con = ds.getConnection();
 			psmt = con.prepareStatement(CREATE_ONE_STMT);
+			LOGGER.info("=========ord_detailsVO==========");
+			gson.toJson(ord_detailsVO);
+			LOGGER.info("ord_detalVO" + ord_detailsVO.toString());
 			psmt.setString(1, ord_detailsVO.getOrd_no());
 			psmt.setInt(2, ord_detailsVO.getProduct_no());
 			psmt.setInt(3, ord_detailsVO.getQuantity());
-			psmt.setInt(4, ord_detailsVO.getQuantity());
+			psmt.setInt(4, ord_detailsVO.getProd_price());
 			updateNum = psmt.executeUpdate();
 		} catch (SQLException e) {
-			LOGGER.error("Insert Exception\n"+e.getStackTrace());
-			return 0;
+			LOGGER.error("Transaction is being rolled back-");
+				try {
+					con.rollback();
+				} catch (SQLException e1) {
+					throw new RuntimeException("rollback error occured. XXX" + e1.getMessage());
+				}
+			throw new RuntimeException("A database error occured. " + e.getMessage());
 		} finally {
 			if(con!=null) {
 				try {
