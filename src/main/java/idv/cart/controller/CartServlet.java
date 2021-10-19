@@ -14,6 +14,7 @@ import org.apache.logging.log4j.*;
 import com.google.gson.Gson;
 import idv.cart.model.CartVO;
 import idv.customer.model.CustomerVO;
+import idv.date.IdGen;
 
 /**
  * Servlet implementation class CartServlet
@@ -70,12 +71,14 @@ public class CartServlet extends HttpServlet {
 		if(method.equals("cart")) {
 			LOGGER.info("Add to Cart");
 			CartVO newCart = new CartVO();
-			Integer product_no = Integer.valueOf(req.getParameter("prod_no"));
-			Integer cart_mount = Integer.valueOf(req.getParameter("quantity"));
+			
 			newCart.setCustomer_no(customer.getNo());
-			newCart.setProduct_no(product_no);
-			newCart.setCart_mount(cart_mount);
-			LOGGER.info("newCart - "+newCart.getProduct_no());
+			newCart.setProduct_no(Integer.valueOf(req.getParameter("prod_no")));
+			//Retrived from DB?
+			newCart.setProd_name(req.getParameter("prod_name"));
+			newCart.setProd_price(Integer.valueOf(req.getParameter("prod_price")));
+			newCart.setCart_mount(Integer.valueOf(req.getParameter("quantity")));
+			LOGGER.info("newCart - "+newCart.getProd_name());
 			// check buylist if null or add before
 			if (buylist == null) {
 				buylist = new Vector<CartVO>();

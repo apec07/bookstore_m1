@@ -28,14 +28,14 @@
 			<%--display online product for user --%>
 			<c:if test="${prod.prod_status==1}">
 		<tr>
-		<td>${prod.product_no}</td>
+		<td class="prod_no">${prod.product_no}</td>
 		<td><c:forEach var="prodcat" items="${prod_categorySvc.all}">
                     <c:if test="${prod.category_no==prodcat.category_no}">
 	                    ${prodcat.category_no}【${prodcat.category_name} - ${prodcat.category_descr}】
                     </c:if>
             </c:forEach></td>
-		<td>${prod.prod_name}</td>
-		<td>${prod.prod_price}</td>
+		<td class="prod_name">${prod.prod_name}</td>
+		<td class="prod_price">${prod.prod_price}</td>
 		<td>${prod.prod_introduce}</td>
 		<td>${prod.prod_stock}</td>
 		<td>${(prod.prod_status==0)? 'Offline':'Online' }</td>
@@ -44,6 +44,8 @@
 		<!-- Cart -->
 		<form method="post" action="${pageContext.request.contextPath}/cart.do" >
 		<input type="hidden" name="prod_no" value="${prod.product_no}"/>
+		<input type="hidden" name="prod_name" value="${prod.prod_name}"/>
+		<input type="hidden" name="prod_price" value="${prod.prod_price}"/>
 		<input type="hidden" name="action" value="cart"/>
 		<input type="number" name="quantity" value="1" min="1"/>
 		<input type="submit" value="Add to Cart"/>
@@ -56,6 +58,14 @@
 	</tbody>
 
 </table>
+
+<script>
+		var prod_nos = document.getElementsByClassName("prod_no");
+		var prod_names = document.getElementsByClassName("prod_name");
+		var prod_prices = document.getElementsByClassName("prod_price");
+		
+		
+</script>
 
 </body>
 </html>

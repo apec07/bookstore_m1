@@ -18,6 +18,7 @@ import idv.customer.model.CustomerService;
 import idv.ord.model.OrdService;
 import idv.ord.model.OrdVO;
 import idv.customer.model.CustomerVO;
+import idv.date.IdGen;
 
 /**
  * Servlet implementation class OrdServlet
@@ -68,7 +69,9 @@ public class OrdServlet extends HttpServlet {
 		if (method.equals("newOrder")) {
 			LOGGER.info("===============FROM AddOneOrderPage============");
 			 /*********************************1.接收請求參數***********************************/
-			String ord_no = String.valueOf(req.getParameter("ord_no"));
+//			String ord_no = String.valueOf(req.getParameter("ord_no"));
+			String ord_no = IdGen.getID();
+			LOGGER.info("ord_no - "+ord_no);
 			CustomerVO thisCustomer = (CustomerVO)req.getSession().getAttribute("customer");
 			Integer customer_no = thisCustomer.getNo();
 			Integer ord_status = Integer.valueOf(req.getParameter("ord_status"));
@@ -79,7 +82,9 @@ public class OrdServlet extends HttpServlet {
 			String rec_phone = String.valueOf(req.getParameter("rec_phone"));
 			String rec_zip = String.valueOf(req.getParameter("rec_zip"));
 			String rec_address = String.valueOf(req.getParameter("rec_address"));
-			Integer ord_total = 999;
+	
+			String ord_totalStr = String.valueOf(req.getParameter("ord_total"));
+			Integer ord_total = Integer.parseInt(ord_totalStr);
 			java.sql.Timestamp ord_datetime = new java.sql.Timestamp(System.currentTimeMillis());
 			Vector<CartVO> cartlist = (Vector<CartVO>)req.getSession().getAttribute("shoppingcart");
 			if(cartlist==null || cartlist.size()==0) {
@@ -94,6 +99,8 @@ public class OrdServlet extends HttpServlet {
 			
 			OrdService ordSvc = new OrdService();
 			ordSvc.insertOrd(ord_no, customer_no, ord_status, receiver, rec_phone, rec_zip, rec_address, ord_total, cartlist);
+			//removed cartList
+			req.getSession().removeAttribute("shoppingcart");
 			res.sendRedirect(req.getContextPath()); //back
 			
 		}

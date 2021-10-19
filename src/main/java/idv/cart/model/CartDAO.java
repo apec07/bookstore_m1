@@ -38,7 +38,9 @@ public class CartDAO implements CartImp{
 			psmt = con.prepareStatement(CREATE_ONE_STMT);
 			psmt.setInt(1, cartVO.getCustomer_no());
 			psmt.setInt(2, cartVO.getProduct_no());
-			psmt.setInt(3, cartVO.getCart_mount());
+			psmt.setString(3, cartVO.getProd_name());
+			psmt.setInt(4, cartVO.getProd_price());
+			psmt.setInt(5, cartVO.getCart_mount());
 			updateNum = psmt.executeUpdate();
 		} catch (SQLException e) {
 			LOGGER.error("Insert Exception\n"+e.getStackTrace());
@@ -83,6 +85,8 @@ public class CartDAO implements CartImp{
 				CartVO cartVO = new CartVO();
 				cartVO.setCustomer_no(rs.getInt("customer_no"));
 				cartVO.setProduct_no(rs.getInt("product_no"));
+				cartVO.setProd_name(rs.getString("prod_name"));
+				cartVO.setProd_price(rs.getInt("prod_price"));
 				cartVO.setCart_mount(rs.getInt("cart_mount"));
 				list.add(cartVO);
 			}

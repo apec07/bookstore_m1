@@ -65,7 +65,7 @@ response.setDateHeader("Expires", 0);
 	<div class="tab">
   	<button class="tablinks" onclick="openCity(event, 'prod')" id="defaultOpen">Product List</button>
   	<button class="tablinks" onclick="openCity(event, 'cart')">Cart List</button>
- 	 <button class="tablinks" onclick="openCity(event, 'favor')">Wish List</button>
+ 	 <button class="tablinks" onclick="openCity(event, 'ord')">Ord List</button>
 	</div>
 	
 
@@ -80,8 +80,8 @@ response.setDateHeader("Expires", 0);
   <jsp:include page="/frontend/showUserCart.jsp" flush="true" />
 </div>
 
-<div id="favor" class="tabcontent">
-  <h3>Wish List</h3>
+<div id="ord" class="tabcontent">
+  <h3>Ordered List</h3>
   <p>TBD - Linked with user name.</p>
 </div> 
 

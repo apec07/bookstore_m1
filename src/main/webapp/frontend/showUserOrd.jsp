@@ -23,24 +23,23 @@
 <title>Order Page</title>
 </head>
 <body>
-	<form action="url" method="post">
-	<ul>
-		<li>
-			<select name="PRODUCT_NO" id='prod' onchange="myprod()">
-				<option>1</option>
-				<option>2</option>
-				<option>3</option>
-			</select>	
-		</li>
-		<li class="lv1"><input type="text" value="1"></li>
-		<li><input type="text" value="2"></li>
-		<li><input type="text" value="3"></li>
-		<li><input type="text" value="4"></li>
+	<ul class="borderlist">
+		<c:forEach var="cart" items="${shoppingcart}" varStatus="s">
 	
+			<li class="lv1" data-index="${s.index}">
+				<input type="hidden" name="product_no" value="${cart.product_no}">
+				<input type="hidden" name="quantity" value="${cart.cart_mount}">
+				<div><strong>Name - </strong>${cart.prod_name}</div>
+				<div><strong>Price - </strong><span class="cart_price">${cart.prod_price}</span></div>
+				<div><img width='100' src="${pageContext.request.contextPath}/reader/DBGifReader?product_no=${cart.product_no}"/></div>
+				<div><strong>Count - </strong><span class="cart_mount">${cart.cart_mount}</span></div>
+<!-- 				try made into span html -->
+				<input type="hidden" name ="prod_price" value="${prod.prod_price}">
+			</li>
+			
+		</c:forEach>
+		<li><div><h2>Total Cost - </h2><h3><span class="cart_total_price">0</span></h3></div></li>
 	</ul>
-	<input type='submit'>
-	<input type='reset'>
-	</form>
 	<OL>
 	<li><input type='button' id='btn1' value='a'><input type='text' placeholder='a input'></li>
 	<li><input type='button' id='btn2' value='b'></li>

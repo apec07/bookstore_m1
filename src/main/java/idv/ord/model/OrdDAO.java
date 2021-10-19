@@ -52,7 +52,12 @@ public class OrdDAO implements OrdImp{
 			LOGGER.info(gson.toJson(list));
 			
 			psmt = con.prepareStatement(CREATE_ONE_STMT);
-			psmt.setString(1, ordVO.getOrd_no());
+			String ord_no = ordVO.getOrd_no().trim(); 
+			if(ord_no.length()==0) {
+				// set Error msg - ord_no must input
+				throw new SQLException("ord_no is required");
+			}
+			psmt.setString(1, ord_no);
 			psmt.setInt(2, ordVO.getCustomer_no());
 			psmt.setInt(3, ordVO.getOrd_status());
 			psmt.setString(4, ordVO.getReceiver());
@@ -84,17 +89,17 @@ public class OrdDAO implements OrdImp{
 			LOGGER.info("list size = "+list.size());
 			LOGGER.info("new OrdNo - "+next_ord_no);
 		} catch (SQLException e) {
-			if(con!=null) {
-				LOGGER.error("Transaction is being rolled back-");
+			if(con != null) {
 				try {
+					LOGGER.error("Transaction is being rolled back-");
 					con.rollback();
 				} catch (SQLException e1) {
 					throw new RuntimeException("rollback error occured. XX" + e1.getMessage());
 				}
 			}
-			throw new RuntimeException("A database error occured. " + e.getMessage());
+			throw new RuntimeException("A database error occured. " + e.getMessage()); 
 		} finally {
-			if(con!=null) {
+			if(con != null) {
 				try {
 					con.close();
 					LOGGER.info("Transaction finsihed");

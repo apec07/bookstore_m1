@@ -36,10 +36,10 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 	@Override
 	public Integer insertOrd_detail(Ord_detailsVO ord_detailsVO, Connection con) {
 		
-		PreparedStatement psmt;
+		PreparedStatement psmt= null;
 		int updateNum=0;
 		try {
-			con = ds.getConnection();
+		
 			psmt = con.prepareStatement(CREATE_ONE_STMT);
 			LOGGER.info("=========ord_detailsVO==========");
 			gson.toJson(ord_detailsVO);
@@ -51,18 +51,20 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 			updateNum = psmt.executeUpdate();
 		} catch (SQLException e) {
 			LOGGER.error("Transaction is being rolled back-");
+			if (con != null) {
 				try {
 					con.rollback();
 				} catch (SQLException e1) {
 					throw new RuntimeException("rollback error occured. XXX" + e1.getMessage());
 				}
-			throw new RuntimeException("A database error occured. " + e.getMessage());
+			}
+			throw new RuntimeException("A database error occured. " + e.getMessage());	
 		} finally {
-			if(con!=null) {
+			if (psmt != null) {
 				try {
-					con.close();
-				} catch (SQLException e) {
-					LOGGER.error("Connection closed failed!\n"+e.getStackTrace());
+					psmt.close();
+				} catch (SQLException se) {
+					LOGGER.error("psmt closed - "+se);
 				}
 			}
 		}

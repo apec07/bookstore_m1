@@ -31,10 +31,12 @@ public class OrdService {
 		List<Ord_detailsVO> addList = new ArrayList<Ord_detailsVO>();
 		for (CartVO cartVO : cartlist) {
 			Ord_detailsVO ord_listVO = new Ord_detailsVO();
-			ord_listVO.setProduct_no(cartVO.getProduct_no());
-			ord_listVO.setProd_price(cartVO.getCustomer_no());//?? how to get price?!
-			ord_listVO.setQuantity(cartVO.getCart_mount());
+			
 			ord_listVO.setOrd_no(ord_no);
+			ord_listVO.setProduct_no(cartVO.getProduct_no());
+			ord_listVO.setProd_price(cartVO.getProd_price());
+			ord_listVO.setQuantity(cartVO.getCart_mount());
+			
 			//.....cartVO modify first
 			addList.add(ord_listVO);
 		}

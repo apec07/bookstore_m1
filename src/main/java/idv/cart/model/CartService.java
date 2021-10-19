@@ -10,10 +10,12 @@ public class CartService {
 		dao = new CartDAO();
 	}
 
-	public CartVO insertCart(Integer customer_no,Integer product_no,Integer cart_mount) {
+	public CartVO insertCart(Integer customer_no,Integer product_no,String prod_name,Integer prod_price,Integer cart_mount) {
 		CartVO cartVO = new CartVO();
 		cartVO.setCustomer_no(customer_no);
 		cartVO.setProduct_no(product_no);
+		cartVO.setProd_name(prod_name);
+		cartVO.setProd_price(prod_price);
 		cartVO.setCart_mount(cart_mount);
 		if(dao.insertCart(cartVO)==0)
 			return null;
@@ -21,7 +23,7 @@ public class CartService {
 			return cartVO;
 	}
 	
-	public CartVO updateCart(Integer customer_no,Integer product_no,Integer cart_mount) {
+	public CartVO updateCart(Integer customer_no,Integer product_no,String prod_name,Integer prod_price,Integer cart_mount) {
 		
 		return null;
 	}

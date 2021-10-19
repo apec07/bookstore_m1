@@ -7,7 +7,6 @@
 <!-- utility  -->
 <%@ page import="java.util.*" %>
 <jsp:useBean id="cart_Svc" scope="page" class="idv.cart.model.CartService" />
-<jsp:useBean id="prod_Svc" scope="page" class="idv.product.model.ProductService" />
 
 <!DOCTYPE html>
 <html>
@@ -97,52 +96,70 @@
 	<form method="post" action="${pageContext.request.contextPath}/ord.do" >
 	<table border=1>
 		<tr>
-			<td><strong>ORD_NO</strong></td><td><input type="text" name="ord_no"></td>
-		</tr>
-		<tr>
-			<td><strong>Payed</strong></td><td>
+			<td><strong>Payed</strong></td><td colspan="2">
 					<div><input type='radio' name='ord_status' value=1 >已付款</div>
 					<div><input type='radio' name='ord_status' value=0 checked>未付款</div></td>
 		</tr>
 		<tr>
-			<td><strong>Receiver</strong></td><td><input type="text" name="receiver"></td>
+			<td><strong>Receiver</strong></td><td colspan="2"><input type="text" name="receiver"></td>
 		</tr>
 		<tr>
-			<td><strong>REC_PHONE</strong></td><td><input type="text" name="rec_phone"></td>
+			<td><strong>REC_PHONE</strong></td><td colspan="2"><input type="text" name="rec_phone"></td>
 		</tr>
 		<tr>
-			<td><strong>REC_ZIP</strong></td><td><input type="text" name="rec_zip"></td>
+			<td><strong>REC_ZIP</strong></td><td colspan="2"><input type="text" name="rec_zip"></td>
 		</tr>
 		<tr>
-			<td><strong>REC_ADDRESS</strong></td><td><textarea name="rec_address"></textarea></td>
+			<td><strong>REC_ADDRESS</strong></td><td colspan="2"><textarea name="rec_address"></textarea></td>
 		</tr>
 	</table>
 	<ul class="borderlist">
-		<c:forEach var="cart" items="${shoppingcart}">
-			<c:forEach var="prod" items="${prod_Svc.allProd}">
-				<c:if test="${cart.product_no==prod.product_no}">
-			<li class="lv1">
+		<c:forEach var="cart" items="${shoppingcart}" varStatus="s">
+	
+			<li class="lv1" data-index="${s.index}">
 				<input type="hidden" name="product_no" value="${cart.product_no}">
 				<input type="hidden" name="quantity" value="${cart.cart_mount}">
-				<div>${prod.prod_name}</div>
-				<div>${prod.prod_price}</div>
-				<div><img width='100' src="${pageContext.request.contextPath}/reader/DBGifReader?product_no=${prod.product_no}"/></div>
-				<div>${cart.cart_mount}</div>
+				<div><strong>Name - </strong>${cart.prod_name}</div>
+				<div><strong>Price - </strong><span class="cart_price">${cart.prod_price}</span></div>
+				<div><img width='100' src="${pageContext.request.contextPath}/reader/DBGifReader?product_no=${cart.product_no}"/></div>
+				<div><strong>Count - </strong><span class="cart_mount">${cart.cart_mount}</span></div>
+<!-- 				try made into span html -->
+				<input type="hidden" name ="prod_price" value="${prod.prod_price}">
 			</li>
-				</c:if>
-			</c:forEach>
+			
 		</c:forEach>
-		<li><div>Total Cost <span>10000</span></div></li>
+		<li><div><h2>Total Cost - </h2><h3><span class="cart_total_price">0</span></h3></div></li>
 	</ul>
 	<input type="hidden" name="action" value="newOrder">
-	<input type="hidden" name=ord_total value="999">
+	<input type="hidden" name=ord_total class="cart_total_price" >
 	<input type='submit'>
 	<input type='reset'>
 	</form>
 	</c:if>
 <script>
 // cal total cost and put in
-
+		window.onload = function() {
+  			
+		};
+	   var prod_prices = document.getElementsByClassName("cart_price");
+	   var cart_mount = document.getElementsByClassName("cart_mount");
+	   var total = 0;
+	   for(i=0;i<prod_prices.length;i++){
+		   console.log(prod_prices[i].innerHTML);
+		   total += prod_prices[i].innerHTML * cart_mount[i].innerHTML;
+	   }
+	   console.log("totoal = "+total);
+	   if(cart_mount.length>0){
+		   //span set total price - OK
+		   var x = document.getElementsByClassName("cart_total_price")[0].innerHTML = total;
+		   //input set total price - OK!
+		   document.getElementsByClassName("cart_total_price")[1].setAttribute('value',total);
+	   }
+	   
+	   
+	   
+	  
+		
 </script>
 </body>
 </html>
