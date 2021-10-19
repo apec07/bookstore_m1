@@ -17,8 +17,8 @@ import idv.cart.model.CartVO;
 import idv.customer.model.CustomerService;
 import idv.ord.model.OrdService;
 import idv.ord.model.OrdVO;
+import idv.utli.IdGen;
 import idv.customer.model.CustomerVO;
-import idv.date.IdGen;
 
 /**
  * Servlet implementation class OrdServlet

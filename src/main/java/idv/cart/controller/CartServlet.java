@@ -14,7 +14,6 @@ import org.apache.logging.log4j.*;
 import com.google.gson.Gson;
 import idv.cart.model.CartVO;
 import idv.customer.model.CustomerVO;
-import idv.date.IdGen;
 
 /**
  * Servlet implementation class CartServlet

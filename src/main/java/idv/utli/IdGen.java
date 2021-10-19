@@ -1,4 +1,4 @@
-package idv.date;
+package idv.utli;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
