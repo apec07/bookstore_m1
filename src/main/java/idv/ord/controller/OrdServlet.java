@@ -1,6 +1,7 @@
 package idv.ord.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,8 @@ import idv.cart.model.CartVO;
 import idv.customer.model.CustomerService;
 import idv.ord.model.OrdService;
 import idv.ord.model.OrdVO;
+import idv.ord_details.model.Ord_detailsDAO;
+import idv.ord_details.model.Ord_detailsVO;
 import idv.utli.IdGen;
 import idv.customer.model.CustomerVO;
 
@@ -62,8 +65,7 @@ public class OrdServlet extends HttpServlet {
 		String method = req.getParameter("action");
 		if(method==null ||method.trim().length()==0) {
 			LOGGER.warn("no parameters for action");
-			LOGGER.info("即將導入 ----"+req.getContextPath()+"/frontend/addOneOrder.jsp");
-			res.sendRedirect(req.getContextPath()+"/frontend/order.jsp"); //#至Cart list
+			res.sendRedirect(req.getContextPath()); //#home
 			return;
 		}
 		if (method.equals("newOrder")) {
@@ -102,6 +104,15 @@ public class OrdServlet extends HttpServlet {
 			//removed cartList
 			req.getSession().removeAttribute("shoppingcart");
 			res.sendRedirect(req.getContextPath()); //back
+			
+		}
+		if(method.equals("listDetails_ByOrdno")) {
+			String requestUrl = req.getParameter("requestURL");
+			String ord_noStr = req.getParameter("ord_no");
+			Ord_detailsDAO dao = new Ord_detailsDAO();
+			List<Ord_detailsVO> ordByCus = dao.getMyOrd_detail(ord_noStr);
+			req.setAttribute("listOrderDetails_ByOrdno", ordByCus);
+			req.getRequestDispatcher(requestUrl).forward(req, res);
 			
 		}
 	  

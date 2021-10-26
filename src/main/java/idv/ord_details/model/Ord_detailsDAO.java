@@ -88,7 +88,7 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 	}
 
 	@Override
-	public Integer deleteOrd_detail(Integer ord_no, Connection con) {
+	public Integer deleteOrd_detail(String ord_no, Connection con) {
 		// cart delete 
 		
 		// ordered  - disabled (back-end only)
@@ -96,15 +96,15 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 	}
 
 	@Override
-	public List<Ord_detailsVO> getMyOrd_detail(Integer customer_no) {
+	public List<Ord_detailsVO> getMyOrd_detail(String ord_no) {
 		Connection con = null;
 		PreparedStatement psmt;
 		List<Ord_detailsVO> list = new LinkedList<>();
 		
 		try {
 			con = ds.getConnection();
-			psmt = con.prepareStatement(GET_ALL_STMT);
-			psmt.setInt(1, customer_no);
+			psmt = con.prepareStatement(GET_ONE_STMT);
+			psmt.setString(1, ord_no);
 			ResultSet rs = psmt.executeQuery();
 			// ord_details.ord_no,product_no,quantity,prod_price  
 			while(rs.next()) {

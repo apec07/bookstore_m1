@@ -25,11 +25,14 @@ public interface Ord_detailsImp {
 				+ " FROM ord_details"
 				+ " INNER JOIN ord ON ord.ord_no = ord_details.ord_no"
 				+ " WHERE ord.customer_no=?";
+	
+	final String GET_ONE_STMT="SELECT ord_no,product_no,quantity,prod_price"
+			+ "  FROM ord_details WHERE ord_no = ? ORDER BY product_no";
 	  
 	//CRUD
 	Integer insertOrd_detail(Ord_detailsVO ord_detailsVO, java.sql.Connection con);
 	Integer updateOrd_detail(Ord_detailsVO ord_detailsVO, java.sql.Connection con);
-	Integer deleteOrd_detail(Integer ord_no, java.sql.Connection con);
-	List<Ord_detailsVO> getMyOrd_detail(Integer customer_no);
+	Integer deleteOrd_detail(String ord_no, java.sql.Connection con);
+	List<Ord_detailsVO> getMyOrd_detail(String ord_no);
 	List<String> getOrd_detailHeader();
 }

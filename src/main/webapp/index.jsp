@@ -64,8 +64,8 @@ response.setDateHeader("Expires", 0);
 	<!-- Tab links -->
 	<div class="tab">
   	<button class="tablinks" onclick="openCity(event, 'prod')" id="defaultOpen">Product List</button>
-  	<button class="tablinks" onclick="openCity(event, 'cart')">Cart List</button>
- 	 <button class="tablinks" onclick="openCity(event, 'ord')">Ord List</button>
+  	<button class="tablinks" onclick="openCity(event, 'cart')" id="carttab">Cart List</button>
+ 	<button class="tablinks" onclick="openCity(event, 'ord')" id="ordtab">Ord List</button>
 	</div>
 	
 
@@ -82,7 +82,7 @@ response.setDateHeader("Expires", 0);
 
 <div id="ord" class="tabcontent">
   <h3>Ordered List</h3>
-  <p>TBD - Linked with user name.</p>
+   <jsp:include page="/frontend/showUserOrder.jsp" flush="true" />
 </div> 
 
 
@@ -109,6 +109,17 @@ function openCity(evt, categ) {
 	} 
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
-</script> 
+
+// goto ord tab if ordered detail is request
+<%if(request.getAttribute("listOrderDetails_ByOrdno")!=null){
+	%>
+	document.getElementById("ordtab").click();
+	<%
+}	
+	%>
+</script>
+
+
+ 
 </body>
 </html>

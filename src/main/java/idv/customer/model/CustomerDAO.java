@@ -71,8 +71,41 @@ public class CustomerDAO implements CustomerImp {
 
 	@Override
 	public CustomerVO getOneCustomer(Integer no) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		CustomerVO customer = null;
+		try {
+			con = ds.getConnection();
+			PreparedStatement psmt = con.prepareStatement(GET_ONE_STMT);
+			psmt.setInt(1, no);
+			ResultSet rs = psmt.executeQuery();
+			while(rs.next()) {
+				Integer noInt = rs.getInt(1);
+				String name = rs.getString(2);
+				String password = rs.getString(3);
+				String email = rs.getString(4);
+				customer = new CustomerVO();
+				customer.setNo(noInt);
+				customer.setName(name);
+				customer.setPassword(password);
+				customer.setEmail(email);
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e);
+		} finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					LOGGER.error(e);
+				}
+			}
+		}
+		if(customer==null) {
+			return null;
+		}else {
+			return customer;
+		}
+	
 	}
 
 	@Override

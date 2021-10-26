@@ -86,10 +86,6 @@ public class CustomerServlet extends HttpServlet {
 				break;
 			case "login":
 				List<CustomerVO> list = cusSvc.getAllCustomer();
-				//judge name 
-		
-				String listGson = gson.toJson(list);
-				LOGGER.info(listGson);
 				
 //				CustomerVO customerLog = findUsingIterator(name,list);
 				//or use Java 8 Stream API

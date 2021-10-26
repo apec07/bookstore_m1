@@ -37,6 +37,10 @@ public class CustomerService {
 		
 	}
 	
+	
+	public CustomerVO getOneCustomer(Integer no) {
+		return dao.getOneCustomer(no);
+	}
 	public List<CustomerVO> getAllCustomer(){
 		return dao.getAllCustomer();
 	}
