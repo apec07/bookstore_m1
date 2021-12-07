@@ -7,16 +7,21 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import idv.cart.model.CartDAO;
+
 public class ProductDAO implements ProductImp {
 	
 	private static DataSource ds = null;
-	
+	static Logger LOGGER = LogManager.getLogger(CartDAO.class);
 	static {
 		try {
 			javax.naming.Context ctx = new javax.naming.InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL_LOCAL");
 		} catch (NamingException e) {
-			e.printStackTrace();
+			LOGGER.error("no DataBase defined!\n"+e.getStackTrace());
 		}
 	}
 

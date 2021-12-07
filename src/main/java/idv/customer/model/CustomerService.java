@@ -7,11 +7,17 @@ public class CustomerService {
 	
 	private CustomerImp dao;
 	public Logger LOGGER;
+	private String dbUrl;
 	
 	public CustomerService() {
 		dao = new CustomerDAO();
 		LOGGER = LogManager.getLogger();
-
+	}
+	
+	public CustomerService(String dbUrl) {
+		this.dbUrl = dbUrl;
+		dao = new CustomerDAO(dbUrl);
+		LOGGER = LogManager.getLogger();
 	}
 	
 	public CustomerVO insertCustomer(String name,String password, String email) {

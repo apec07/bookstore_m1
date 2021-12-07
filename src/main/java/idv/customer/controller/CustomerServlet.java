@@ -1,7 +1,14 @@
 package idv.customer.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -22,6 +29,7 @@ import com.google.gson.Gson;
 
 import idv.customer.model.CustomerService;
 import idv.customer.model.CustomerVO;
+
 
 /**
  * Servlet implementation class CustomerServlet
@@ -44,9 +52,15 @@ public class CustomerServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		LOGGER = LogManager.getLogger(this.getClass());
+		LOGGER = LogManager.getLogger();
 		LOGGER.traceEntry();
 		gson = new Gson();
+		Enumeration<String> initNames = getServletContext().getInitParameterNames();
+		while(initNames.hasMoreElements()) {
+			String initName = initNames.nextElement();
+			LOGGER.info("init Name = "+initName);
+			
+		}
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -61,6 +75,9 @@ public class CustomerServlet extends HttpServlet {
 		String loginUrl = req.getContextPath()+"/login.jsp";
 		String indexUrl = req.getContextPath()+"/index.jsp";
 		String action = req.getParameter("action");
+		
+		String dbUrl = req.getRemoteHost()+ req.getContextPath()+"/WEB-INF/web.xml";
+//		LOGGER.info(dbUrl);
 		if(action==null) {
 			LOGGER.info("no parameters for actions");
 			res.sendRedirect(loginUrl);
@@ -105,7 +122,10 @@ public class CustomerServlet extends HttpServlet {
 				//judge name & password
 				boolean isPasswordCorrect = customerLog.getPassword().equals(password);
 				if(!isPasswordCorrect) {
-					LOGGER.info("username & password is mismatched : your input name - "+name +"\tpassword - "+password);
+//					String reqAddr = req.getScheme()+":"+req.getServerName()+":"+req.getServerPort()+req.getContextPath();
+					String reqAddr = req.getScheme()+":"+req.getServerName()+":"+req.getServerPort()+req.getRequestURI();
+					LOGGER.info("Path is "+reqAddr);
+					LOGGER.warn("username & password is mismatched : your input name - "+name +"\tpassword - "+password);
 					errorMsgs.put("pass_error", password + " is incorrect");
 					req.getSession().setAttribute("customerName", name);
 					res.sendRedirect(indexUrl);

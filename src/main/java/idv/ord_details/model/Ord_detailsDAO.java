@@ -27,7 +27,7 @@ public class Ord_detailsDAO implements Ord_detailsImp {
 	static {
 		try {
 			javax.naming.Context ctx = new javax.naming.InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL_LOCAL");
 		} catch (NamingException e) {
 			LOGGER.error("no DataBase defined!\n"+e.getStackTrace());
 		}

@@ -82,7 +82,7 @@ response.setDateHeader("Expires", 0);
 
 <div id="ord" class="tabcontent">
   <h3>Ordered List</h3>
-   <jsp:include page="/frontend/showUserOrder.jsp" flush="true" />
+<%--    <jsp:include page="/frontend/showUserOrder.jsp" flush="true" /> --%>
 </div> 
 
 

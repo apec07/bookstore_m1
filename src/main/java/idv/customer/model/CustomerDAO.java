@@ -14,23 +14,35 @@ import javax.sql.DataSource;
 
 import org.apache.logging.log4j.*;
 
+import idv.utli.ReadXmlDomParser;
+
 public class CustomerDAO implements CustomerImp {
 	
 	private static DataSource ds = null;
-	public static Logger LOGGER = null;
-
-	static {
-		
-		LOGGER = LogManager.getLogger();
-		
+	public Logger LOGGER = null;
+	private String dbUrl;
+	
+	public CustomerDAO () {
 		try {
 			javax.naming.Context ctx = new javax.naming.InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL_LOCAL");
 		} catch (NamingException e) {
-			LOGGER.error(e);
+			LOGGER.error("no DataBase defined!\n"+e.getStackTrace());
 		}
 	}
-
+	
+	public CustomerDAO (String dbUrl) {
+		this.dbUrl = dbUrl;
+//		new ReadXmlDomParser(dbUrl).getRefName();
+		try {
+			javax.naming.Context ctx = new javax.naming.InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL_LOCAL");
+		} catch (NamingException e) {
+			LOGGER.error("no DataBase defined!\n"+e.getStackTrace());
+		}
+		
+	}
+	
 	@Override
 	public Integer insertCustomer(CustomerVO customerVO) {
 		Connection con = null;
