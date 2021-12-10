@@ -3,12 +3,16 @@ package idv.customer.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +51,22 @@ public class CustomerServlet extends HttpServlet {
 		LOGGER = LogManager.getLogger(this.getClass());
 		LOGGER.traceEntry();
 		gson = new Gson();
+		Map<String,String> tables = new HashMap<>();
+		Enumeration<String> enum1 = getServletConfig().getInitParameterNames();
+		while(enum1.hasMoreElements()) {
+			String key = enum1.nextElement();
+			String value = getServletConfig().getInitParameter(key);
+			tables.put(key, value);
+		}
+		LOGGER.info("here you are getServletConfig - "+tables);
+		Map<String,String> Btables = new HashMap<>();
+		Enumeration<String> servletKeys =  getServletContext().getInitParameterNames();
+		while(servletKeys.hasMoreElements()) {
+			String key = servletKeys.nextElement();
+			String value = getServletContext().getInitParameter(key);
+			Btables.put(key, value);
+		}
+		LOGGER.info("here you are getServletContext - "+Btables);
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -62,7 +82,7 @@ public class CustomerServlet extends HttpServlet {
 		String indexUrl = req.getContextPath()+"/index.jsp";
 		String action = req.getParameter("action");
 		if(action==null) {
-			LOGGER.info("no parameters for actions");
+			LOGGER.error("no parameters for actions");
 			res.sendRedirect(loginUrl);
 			return;
 		}
