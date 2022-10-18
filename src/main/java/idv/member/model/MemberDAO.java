@@ -13,7 +13,7 @@ public class MemberDAO implements MemberImp {
 	static {
 		try {
 			javax.naming.Context ctx = new javax.naming.InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestMYSQL_LOCAL");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
