@@ -56,9 +56,11 @@ public class CustomerServlet extends HttpServlet {
 		LOGGER.traceEntry();
 		gson = new Gson();
 		Enumeration<String> initNames = getServletContext().getInitParameterNames();
+		
 		while(initNames.hasMoreElements()) {
 			String initName = initNames.nextElement();
-			LOGGER.info("init Name = "+initName);
+			String initVal = getServletContext().getInitParameter(initName);
+			LOGGER.info("init " + initName +"\t=" + initVal);
 			
 		}
 	}
@@ -76,7 +78,7 @@ public class CustomerServlet extends HttpServlet {
 		String indexUrl = req.getContextPath()+"/index.jsp";
 		String action = req.getParameter("action");
 		
-		String dbUrl = req.getRemoteHost()+ req.getContextPath()+"/WEB-INF/web.xml";
+//		String dbUrl = req.getRemoteHost()+ req.getContextPath()+"/WEB-INF/web.xml";
 //		LOGGER.info(dbUrl);
 		if(action==null) {
 			LOGGER.info("no parameters for actions");

@@ -45,7 +45,7 @@ public class CartServlet extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		doPost(req,res);
+//		doPost(req,res);
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -98,6 +98,7 @@ public class CartServlet extends HttpServlet {
 			LOGGER.info(gson.toJson(buylist));
 			session.setAttribute("shoppingcart", buylist);
 			LOGGER.info("Total Cart size- "+buylist.size());
+//			req.getRequestDispatcher("/").forward(req, res);
 			res.sendRedirect(req.getContextPath());
 			
 		}else {

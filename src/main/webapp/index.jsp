@@ -72,12 +72,12 @@ response.setDateHeader("Expires", 0);
 <!-- Tab content -->
 <div id="prod" class="tabcontent">
   <h3>Product List</h3>
-	<jsp:include page="/frontend/showAllProd.jsp" flush="true" />
+	<jsp:include page="/frontend/showAllProd.jsp" flush="false" />
 </div>
 
 <div id="cart" class="tabcontent">
   <h3>Cart List</h3>
-  <jsp:include page="/frontend/showUserCart.jsp" flush="true" />
+  <jsp:include page="/frontend/showUserCart.jsp" flush="false" />
 </div>
 
 <div id="ord" class="tabcontent">

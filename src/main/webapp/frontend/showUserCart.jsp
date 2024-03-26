@@ -148,7 +148,7 @@
 		   console.log(prod_prices[i].innerHTML);
 		   total += prod_prices[i].innerHTML * cart_mount[i].innerHTML;
 	   }
-	   console.log("totoal = "+total);
+	   console.log("JS total = "+total);
 	   if(cart_mount.length>0){
 		   //span set total price - OK
 		   var x = document.getElementsByClassName("cart_total_price")[0].innerHTML = total;

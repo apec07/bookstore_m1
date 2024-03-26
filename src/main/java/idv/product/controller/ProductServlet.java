@@ -9,21 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import idv.product.model.ProductService;
 import idv.product.model.ProductVO;
 
 @MultipartConfig
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	public Logger LOGGER = LogManager.getLogger(this.getClass());
 
     public ProductServlet() {
-        super();
     }
 
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		doPost(req,res);
+//		doPost(req,res);
 	}
 
 
@@ -33,15 +35,15 @@ public class ProductServlet extends HttpServlet {
 		String method = req.getParameter("action");
 		
 		if(method==null ||method.trim().length()==0) {
-			log("no parameters for action");
+			LOGGER.info("no parameters for action");
 			res.sendRedirect(req.getContextPath()+"/backend/");
 			return;
 		}
-		log("method "+method);
+		LOGGER.info("method "+method);
 		//page forward (all / one)
 		if(method.contains("selectPage")) {
 			String usePage = req.getParameter("usePage");
-			log("usePage - "+usePage);
+			LOGGER.info("usePage - "+usePage);
 			switch(usePage) {
 				case "all":
 					req.setAttribute("usePage", "/backend/product/showAllProd.jsp");
@@ -52,16 +54,16 @@ public class ProductServlet extends HttpServlet {
 					break;
 					
 				default:
-					log("undefined page");
+					LOGGER.info("undefined page");
 						
 			}
 			req.getRequestDispatcher("/backend/index.jsp").forward(req, res);
-			log("page forward");
+			LOGGER.info("page forward");
 			return;
 		}
 		//Add one
 		if(method.contains("AddOne")) {
-			log("Add One Page");
+			LOGGER.info("Add One Page");
 			Integer addCate_no = new Integer(req.getParameter("category_no"));
 			String addProd_name = req.getParameter("prod_name");
 			String addProd_intro = req.getParameter("prod_introduce");
@@ -77,15 +79,15 @@ public class ProductServlet extends HttpServlet {
 				is.close();
 			} 
 			ProductVO addProd = new ProductService().insertProd(addCate_no, addProd_name, addProd_price, addProd_intro, addProd_stock, addProd_status, addProd_pic);
-			log("add Product - "+addProd);
+			LOGGER.info("add Product - "+addProd);
 			res.sendRedirect(req.getContextPath()+"/backend/");
 			return;
 		}
 		//Go Product page for Update  
 		if(method.contains("getOneForUpdate")){
-			log("Update One Page");
+			LOGGER.info("Update One Page");
 			String prod_no = req.getParameter("prod_no");
-			log("prod_no = "+prod_no);
+			LOGGER.info("prod_no = "+prod_no);
 			ProductService prod_svc = new ProductService();
 			ProductVO prod = prod_svc.getOneProd(new Integer(prod_no));
 			req.setAttribute("oneProd", prod);
@@ -94,7 +96,7 @@ public class ProductServlet extends HttpServlet {
 		}else if(method.contains("updateOne")) {
 			// getSession attribute
 			ProductVO prod = (ProductVO)req.getSession().getAttribute("oneProd");
-			log("getFrom updateOne - "+prod);
+			LOGGER.info("getFrom updateOne - "+prod);
 			Integer prod_no = prod.getProduct_no();
 			String upProd_name = req.getParameter("prod_name");
 			String upProd_intro = req.getParameter("prod_introduce");
@@ -115,23 +117,23 @@ public class ProductServlet extends HttpServlet {
 			
 			ProductVO upProd = new ProductService().updateProd(prod_no,upCate_no, upProd_name, upProd_price, upProd_intro, upProd_stock, upProd_status, prod_pic);
 			
-			log("update Product - "+upProd);
+			LOGGER.info("update Product - "+upProd);
 			res.sendRedirect(req.getContextPath()+"/backend/");
 //			req.getRequestDispatcher("/backend/index.jsp").forward(req, res);
 			return;
 		}
 		//Delete select One product
 		if(method.contains("getOneForDelete")) {
-			log("Delete One Product");
+			LOGGER.info("Delete One Product");
 			String prod_no = req.getParameter("prod_no");
-			log("prod_no = "+prod_no);
+			LOGGER.info("prod_no = "+prod_no);
 			ProductService prod_svc = new ProductService();
 			boolean isDelete = prod_svc.deleteProd(new Integer(prod_no));
 			req.getSession().setAttribute("isDelete", isDelete);
 			res.sendRedirect(req.getContextPath()+"/backend/");
 			return;
 		}
-		log("method not get");
+		LOGGER.info("method not get");
 	}
 
 }
